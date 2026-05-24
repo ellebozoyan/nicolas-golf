@@ -634,16 +634,232 @@
 }
 .song-card-remove:hover { color: #c73e3a; }
 
+
+/* ===== iPad / iOS scroll & touch fixes ===== */
+html {
+  -webkit-text-size-adjust: 100%;
+  height: 100%;
+}
+body {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+/* Prevent horizontal-scroll on tab nav from capturing vertical scroll */
+nav.tabs {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x;
+}
+/* Make sticky nav less aggressive on small screens / iPads */
+@media (max-width: 900px) {
+  nav.tabs {
+    position: relative !important;
+    top: auto !important;
+  }
+}
+/* Bigger tap targets on tab buttons */
+.tab-btn {
+  min-height: 48px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+/* Ensure modal/overlay never blocks scroll once closed (legacy) */
+[hidden] { display: none !important; }
+/* Disable user-select on tab buttons to prevent text selection on long tap */
+.tab-btn { -webkit-user-select: none; user-select: none; }
+
+
+/* ===== Song manager (inline form, iPad-friendly) ===== */
+.song-add-inline {
+  background: linear-gradient(135deg, var(--cream-deep, #f0eada), #fff);
+  border: 2px solid var(--brass, #c9a91f);
+  border-radius: 18px;
+  padding: 1.2rem 1.1rem;
+  margin: 1rem 0 1.5rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+.song-add-inline h3 { margin: 0 0 0.75rem; font-size: 1.15rem; }
+.song-add-inline-row { display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 0.6rem; }
+.song-add-inline label {
+  font-weight: 700;
+  color: var(--ink, #2c2818);
+  font-size: 0.95rem;
+}
+.song-add-inline input {
+  width: 100%;
+  padding: 0.9rem 0.85rem;
+  font-size: 17px; /* prevents iOS zoom-in on focus */
+  font-family: inherit;
+  border: 2px solid var(--ink-soft, #6b6754);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink, #2c2818);
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  min-height: 48px;
+}
+.song-add-inline input:focus {
+  outline: none;
+  border-color: var(--brass, #c9a91f);
+  box-shadow: 0 0 0 3px rgba(201,169,31,0.18);
+}
+.song-add-inline-btn {
+  background: linear-gradient(135deg, #4a9c8f, #2d6e63);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.95rem 1.4rem;
+  font-size: 17px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  min-height: 50px;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.song-add-inline-btn:active { transform: translateY(1px); }
+.song-add-inline-status {
+  margin-top: 0.6rem;
+  font-size: 0.92rem;
+  min-height: 1.4em;
+  padding: 0.4rem 0;
+  font-weight: 600;
+}
+.song-add-inline-status.success { color: #2d6e63; }
+.song-add-inline-status.error { color: #c73e3a; }
+
+/* Song cards in user list */
+.user-songs-empty {
+  text-align: center;
+  color: var(--ink-soft, #6b6754);
+  font-style: italic;
+  padding: 1rem;
+}
+.song-card-play {
+  display: inline-block;
+  background: linear-gradient(135deg, #4a9c8f, #2d6e63);
+  color: #fff;
+  text-decoration: none;
+  padding: 0.85rem 1.2rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  margin-top: 0.4rem;
+  min-height: 48px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  width: auto;
+  text-align: center;
+}
+.song-card-play:active { transform: translateY(1px); }
+.song-card-remove {
+  display: block;
+  margin-top: 0.6rem;
+  background: transparent;
+  color: var(--ink-soft, #6b6754);
+  border: 1.5px solid var(--ink-soft, #6b6754);
+  border-radius: 10px;
+  padding: 0.55rem 0.95rem;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  min-height: 40px;
+  -webkit-tap-highlight-color: transparent;
+}
+.song-card-remove:active { transform: translateY(1px); }
+
+/* Hide old modal (we replace it but leave the markup safe) */
+.song-modal-overlay { display: none !important; }
+
+
+.sail-icon, .ball-icon, .kayak-icon, .sport-icon { display: none !important; }
+
+/* ===== Universal nav + fade gradient (consistency across all playbooks) ===== */
+nav.tabs {
+  position: relative;
+  background: var(--cream-deep, #f0eada);
+  border-bottom: 3px solid var(--navy, #1c3a5e);
+  z-index: 10;
+  /* Wrap container for fade gradient */
+}
+.tabs-scroll-container {
+  position: relative;
+  overflow: hidden;
+}
+.tabs-scroll-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 40px;
+  pointer-events: none;
+  background: linear-gradient(to right, transparent, var(--cream-deep, #f0eada));
+  z-index: 2;
+}
+nav.tabs .tabs-inner {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scroll-behavior: smooth;
+  padding: 0.5rem 0.4rem;
+  scrollbar-width: thin;
+}
+nav.tabs .tabs-inner::-webkit-scrollbar { height: 4px; }
+nav.tabs .tabs-inner::-webkit-scrollbar-track { background: transparent; }
+nav.tabs .tabs-inner::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15); border-radius: 2px;
+}
+
+/* Standardize tab button look across all apps */
+.tab-btn {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  color: var(--ink, #2c2818);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: background 0.15s ease;
+}
+.tab-btn:hover { background: rgba(0,0,0,0.04); }
+.tab-btn.active {
+  background: var(--navy, #1c3a5e);
+  color: var(--cream, #f8f4ea);
+}
 </style>
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAJ6UlEQVR4nO3dW5AcVR3H8X/P9mwwosgjJYZoeSstEgwpCCV4N1DlUx4IuRJDNloKRi2f8uyDZSmiMVrl5SW3JeKDvliVLCovrgQrCSS8egkWlG9iIGxI9jI+bHq2Z6Z7unumT5/zP+f7oVIku8lu757fr8850z2zkThmz883d2wfA8w68vWZyPYxJKweyKM/+yJhh4iIHH38WStZbPyTEnoUabIMjX2iRw8TfFRz9AnzRTD+CXYTfIzpmMEiGPvAuw9/geCjVsee+GPtea39A+7+KcGHWce+UV8RWnV9IBHCj2bUmbNamrSL4MOS42POBmMXYNchwg+7jh8YvQRjFWDXoc8Tfjjh+IE/jZTlkfcAhB8uGTWPI7Vm508IP9x04pvVZoLKMwDhh8uq5rNSAQg/NKiS09LTxc4ff47wQ5UT3/pzYb5LFWAH4YdS0wUlKFwCEX5oVpTfuPAjEH94bOgMsOMpzv7Qb1iOc9dH25/6LOGHV57+9nMDec9fAhF/BCBzCbT9R5z94Z+sXNf6fABAm4E10bYnOfvDbye/s7IXyNgDkH+Eo2cJtO3Jz5B+eC+d854ZoEP8EZjuDPDIDzn7IxxJ3lMzAPlHeFYKQP4RoEhEZOsPPk38ESQuhCFoy0sgzv8I1I09AA1w1ZnDl+RAe+XPf/vqWmvH4qNYhPhr8Mn33r78m19cynz/CxRjJPHD3/9Uhwbo0S1Cv4xivPCVtUaPxQfFT4mECpnF+OWlgTdRil4UwGNlSyESbjHiDjcABSV3CZVRjDP77zB7MA5gBoCI5BTjV69k/l2fikEBkCt3tkgVQ3sZYh4BQlmzr73a/f2ZqRvBV56fWPnxw7B06J+f0n22zxKrrzBqlQ68iMjzU2tSf/IvKyyB0HuW37em952e54NNcKCGhj4g7AECkg79XwMOfRpLIM/1hP6xVOgZdxFhE+yl3tC/L/UexrofSyAP9D9yM9sTegzDEkipdOhn9/YFnjEtjUeBFBkaeoyEPYASs6+9KrN70/fmMG51iLkb2n2H5kU27L+dzBvAy6IgaBQAQeNRIC0YJyNiXhJCB8bJDJZACBpLIC0YJyOYARA07gVSgnEyI+YHgynBOBnBEghBYxOsBeNkBHsAJRgnM1gCIWhsgrVgnIxgBkDQ2AMowTiZwaNAWjBORrAEQtC4HVoJxskMlkBaME5GsARC0CgAgsZPiVSCcTKDGQBBowAIGo8CacE4GcGtEEowTmbw4rhqME4msATSgnEygk0wgsYeQAnGyQyWQFowTkawCVaDcTKBPQCCxo9IUoJxMoMZAEGjAAgarwukBeNkBNcBlGCczGAJhKBxIUwLxskIZgAEjdcFUoJxMoMlkBaMkxEsgRA0HgZVgnEygwthWjBORrAEQtAoAILG7dBKME5mMAMgaDwlUg3GyQQuhGnBOBnBdQAlGCcz2AMgaCyBanT99SvmPvZ/ez/25K03G/tcIWETXML119+yfQgDypZt8tZ3Gj4S3dgDpMyPGfQ9U1+q6UhWfPe532d+7CO//kOpf59X3jbFEJGAl0Dz/ysfdhPBHlfZY8orSlbZ2+8JrxSx7QNoQtmwuxj0ceV9TVnFyPo++V4KbwtQFHofw15F1tdfVAofy+DVj0lduDyX+fbQw15WUSnSZYhvWd3IMZmmfgYg9Galv4/pMqS/75rLoLIAhN4OH8ug6lGghTcGg0/o7SgqQ/xuHUVQcR1gsS/4hN4tWWVITlYTjhfB6SvBi29c7fkzwXdfMkZJERa7RXiHtWMaxtkl0OKbK+En+PoMFuGqTLzLvRI4twRaIvheSRchOam1HCqCU7dDE35/pcczPc62OfO6QEtX3hYRgu+z9Gyw9OZVad18k+UjcmQGIPxhScY5GXebogce/7jVKaBD+HMd3DItq1cvP4w4N7f8aMr3frfD5iHVKtkgRxZngpZ0RGz9Ivz5Dm6ZrvR2jZJx71x521oGrS2BOm/Zn/6y3Hb5/oFfTSsKuU8lSNjKQ/TA1z5mZQnUmbsmIu6c/ZOgP7j5oYH3nZ45JSIi/7nlL8aPoz/c/UugNF+WQ92l0OpVjX9u564D2HDb5fszg59I3nd6xmwJqp7ZD26Z9qYEInbuSbCzBHLo7F8U/rQHNz9kZUnku24ObuSiSXY2wY7oD/+582cH/k7/2yiBYaFsgl2TBD0d+Ky3NW1ubi5z/Y96tDrS/H8u6D/7371hY8//894mwixgUtNZDHoJ1K8/6HlvM6XqhtanDXBXCEugzk2TIlL+xZ1CUjbUPoU/yUGSiyaxB8hhc91fFG6fwm9bq9MRsfEr4eIs4MLmNy/kvoU/Pf42cmjtKZFLq9rSujZv5XOLLF/QOj2TfeX37g0b5dz5s7nr/9Mzpxq5Kuxb2IdZWtUWG1m0ugRa/qLdnAWa3PyGKhn3JAc2WL0bVDoiS5P2SrA8C5yq9G+aOvv7rhv+ybbV/LUs5186IrKopASEvx7dJ8pPtq1nL7pv/0c7hr/e0iaur+wJmr5PyJW7QX2WPsElJz3bovumPuJMAUREJuYXur+3cbNc1hVegj++nvC33XlFzmiTYwVIxJaLgHr0vGyiQ8FPOFsAkd4SiFAETfr3cy6GX0Qk2rTP3QIk4gWKoMVA8GM3g5+INu37sPMFSMQLiwNvowz2ZT16txBPWDiS6qJ7FRUg0c4ogghlaFLuD99TEvxEdO9j+gqQ1l6kDE3JDf2ErtCnqS9AGmWon4+hT/OqAGl5ZUhQikFFV+J9CX1adM/eD3lZgLTJpaVSfy+kUpT+SfMtv58yEkQBspQthYjuYlS5v8r3sGcJtgBZqpQiS5NFGffGwRDDniUSEbnny5RgmMnOeMWw6XpE0IeJRWw9J0yPayVDtKrBopQ9Jgx34zo1FajDtShq8LMxZnVYLgDfSwSKeRRB687ZG/d8kHkAQTl75O/Ryr2qxB8BSt2sTQMQnu4e4OzRfzT5EAZgVZL3nqfrOPIzs4HG9DwKdO4YswD8l845D4MiaJln/A27PsBiCF46f/yfPZlnBkDQMgvQ3xLAB1m5zn/RFhZBCMDQM/0ndr6fGsALL574V2bWh+4B8v4RoMmwHBe/bh1zADxW+CjQi9PMAtCrKL+lw33XDvYD0OWlEifvSmf3u7avpQRQ4aWnL5XKdqULYWU/KGBTlZxWvhJMCeCyqvkcOczrt7EcglsunKx+ch75XqBRPhlgyqh5HDvE67fdwUwAqy6cfGXkHNdyFl//CCWAHRd+M3r4RWoqQGIdRUBDLo4Z/EStzweo66CAYerMmbHArtvKbIB6XXym/hOs8TP2uq1rKALGcvGZfxvLaWNLljspAip62WDwE42v2e98mCJguJd/az74CaubVsqARJOhT/s/MW6V+VrkSPUAAAAASUVORK5CYII=">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="mobile-web-app-capable" content="yes">
 </head>
 <body>
 
 <header class="top-banner">
   <h1>Nicolas's Golf Playbook  ⛳</h1>
-  <p class="sub">A picture guide to the course, the clubs, the swing, and the joy of a great round — for two brothers, learning a game they can love forever.</p>
+  <p class="sub">A picture guide to the course, the clubs, the swing, and the joy of a great round.</p>
 </header>
 
-<nav class="tabs" aria-label="Sections">
+<nav class="tabs"><div class="tabs-scroll-container"><div class="tabs-inner">
   <div class="tab-list" role="tablist">
     <button class="tab-btn active" data-tab="welcome">🏁 Start Here</button>
     <button class="tab-btn" data-tab="course">⛳ The Course</button>
@@ -654,7 +870,7 @@
     <button class="tab-btn" data-tab="story">📖 Golf Story</button>
     <button class="tab-btn" data-tab="songs">🎵 Golf Songs</button>
   </div>
-</nav>
+</div></div></nav>
 
 <main>
 
@@ -664,44 +880,44 @@
     Welcome, Nicolas. Today you start learning golf. You and your brother Alexander — two brothers, one game you can love your whole life, played anywhere there's grass and a flag. The plan: <strong>learn the basics first</strong>. The clubs. The grip. The stance. The pre-shot routine. Then putting. Then chipping. Then the full swing. Then real holes. Golf is not about being strong. It's about being patient with yourself, building good habits, and enjoying every walk between shots. Take your time. Look at the pictures. Watch a video. Try a putt on the carpet.
   </div>
 
-  <h2>What's inside this playbook</h2>
-  <div class="card-grid" style="margin-top:1.2rem">
-    <div class="card">
-      <div class="card-icon">⛳</div>
-      <h3>The Course</h3>
-      <p class="summary">A picture map of a golf hole — tee box, fairway, rough, green, bunkers, the flag. Every part labeled. Every term defined.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">📋</div>
-      <h3>Rules &amp; Safety</h3>
-      <p class="summary">10 simple rules of golf and golf etiquette. Quiet on the tee. "FORE!" Honors. Repair the green. The manners that make you welcome anywhere.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">🎯</div>
-      <h3>Skills &amp; Moves</h3>
-      <p class="summary">The grip. The stance. Putting. Chipping. The full swing. The pre-shot routine. The moves every golfer knows.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">📅</div>
-      <h3>Lesson Plans</h3>
-      <p class="summary">Four lesson formats that roll in over the year — starting with putting only for the first 6 weeks. 30-min and 60-min versions for Daddy.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">🎮</div>
-      <h3>Fun Games</h3>
-      <p class="summary">Brother games. Closest-to-the-pin. Putting contests. Things to play before, between, and after golf.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">📖</div>
-      <h3>Your Golf Story</h3>
-      <p class="summary">A picture story about a golf day — what to expect, what to do, what to feel. Read it together before the round.</p>
-    </div>
-    <div class="card">
-      <div class="card-icon">🎵</div>
-      <h3>Golf Songs</h3>
-      <p class="summary">Custom Suno songs made just for you. Listen before a round to get ready, or after a great game to celebrate. Add new ones anytime.</p>
-    </div>
+  <h2 style="margin: 2rem 0 1.2rem">What's inside this playbook</h2>
+<div class="card-grid welcome-cards-grid">
+  <div class="card">
+    <div class="card-icon" style="background: linear-gradient(135deg, var(--navy, #1c3a5e), var(--navy-deep, #0f2444)); color: var(--cream, #f8f4ea)">⛳</div>
+    <h3>The Course</h3>
+    <p class="summary">A picture map of a golf hole — tee box, fairway, rough, green, bunkers, the flag. Every part labeled.</p>
   </div>
+  <div class="card">
+    <div class="card-icon" style="background: linear-gradient(135deg, var(--navy, #1c3a5e), var(--navy-deep, #0f2444)); color: var(--cream, #f8f4ea)">📋</div>
+    <h3>Rules &amp; Safety</h3>
+    <p class="summary">10 simple rules of golf and golf etiquette. Quiet on the tee. "FORE!" Honors. Repair the green. The manners that make you welcome anywhere.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon" style="background: linear-gradient(135deg, var(--navy, #1c3a5e), var(--navy-deep, #0f2444)); color: var(--cream, #f8f4ea)">🎯</div>
+    <h3>Skills &amp; Moves</h3>
+    <p class="summary">The grip. The stance. Putting. Chipping. The full swing. The pre-shot routine. The moves every golfer knows.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon" style="background: linear-gradient(135deg, var(--navy, #1c3a5e), var(--navy-deep, #0f2444)); color: var(--cream, #f8f4ea)">📅</div>
+    <h3>Lesson Plans</h3>
+    <p class="summary">Four lesson formats that roll in over the year — starting with putting only for the first 6 weeks. 30-min and 60-min versions for Daddy.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon" style="background: linear-gradient(135deg, var(--navy, #1c3a5e), var(--navy-deep, #0f2444)); color: var(--cream, #f8f4ea)">🎮</div>
+    <h3>Fun Games</h3>
+    <p class="summary">Brother games. Closest to the pin. Putting contests. Things to play before, between, and after golf.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon" style="background: linear-gradient(135deg, var(--navy, #1c3a5e), var(--navy-deep, #0f2444)); color: var(--cream, #f8f4ea)">📖</div>
+    <h3>Your Golf Story</h3>
+    <p class="summary">A picture story about a golf day — what to expect, what to do, what to feel.</p>
+  </div>
+  <div class="card">
+    <div class="card-icon" style="background: linear-gradient(135deg, var(--navy, #1c3a5e), var(--navy-deep, #0f2444)); color: var(--cream, #f8f4ea)">🎵</div>
+    <h3>Golf Songs</h3>
+    <p class="summary">Custom Suno songs made just for you. Listen before a round to get ready, or after a great game to celebrate.</p>
+  </div>
+</div>
 
   <div class="pull-quote">
     The ocean doesn't care if you're new. It just is. Learn to read it, and the course will take you anywhere a golf bag can go.
@@ -858,65 +1074,112 @@
       <h3>1. Be QUIET when others swing</h3>
       <p class="summary">Don't talk, don't move, don't make noise. Stand STILL until the ball is hit. Then you can move. This is rule #1.</p>
       <span class="cue">"Stand still. Stay quiet."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=be+quiet+when+others+swing+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🗣️</div>
       <h3>2. Yell "FORE!" loud</h3>
       <p class="summary">If your shot heads toward ANYONE — yell "FORE!" as loud as you can. It warns them to duck. Always.</p>
       <span class="cue">"FORE! Loud and fast."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=yell+fore+loud+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🎯</div>
       <h3>3. Honors (who hits first)</h3>
       <p class="summary">At the tee box: the player who scored LOWEST on the last hole hits first. After the tee: the player FURTHEST from the hole hits next.</p>
       <span class="cue">"Furthest plays first."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=honors+who+hits+first+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">⏱️</div>
       <h3>4. Play ready, play fast</h3>
       <p class="summary">When it's your turn, be ready. Don't waste time. Walk briskly. A round shouldn't drag.</p>
       <span class="cue">"Be ready."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=play+ready+play+fast+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🌱</div>
       <h3>5. Repair the green</h3>
       <p class="summary">If your ball makes a dent on the green when it lands, FIX IT. Use a small "ball mark repair" tool. Pop it up, then tap flat with the putter.</p>
       <span class="cue">"Leave it better."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=repair+the+green+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🕳️</div>
       <h3>6. Replace divots</h3>
       <p class="summary">When your club takes a chunk of grass out (a "divot") — PICK IT UP and place it back in the hole. Stomp it down.</p>
       <span class="cue">"Put the grass back."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=replace+divots+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🏖️</div>
       <h3>7. Rake the bunker</h3>
       <p class="summary">After hitting out of sand, use the RAKE (it's right there) to smooth your footprints and the spot where your ball was. Leave it like you found it.</p>
       <span class="cue">"Rake it smooth."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=rake+the+bunker+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🚶</div>
       <h3>8. Don't walk on someone's line</h3>
       <p class="summary">On the green, don't step between another player's ball and the hole. Your footprints could change how their putt rolls.</p>
       <span class="cue">"Walk around, not across."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=dont+walk+on+someones+line+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🔢</div>
       <h3>9. Count every stroke</h3>
       <p class="summary">Every time you swing AT the ball (even if you miss) — that's a stroke. Count honestly. Tell your playing partner your score for each hole.</p>
       <span class="cue">"Count them all."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=count+every+stroke+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🤝</div>
       <h3>10. Shake hands at the end</h3>
       <p class="summary">When the round is over, take off your hat, shake hands with everyone you played with, say "good game" — win, lose, or in between.</p>
       <span class="cue">"Hat off. Hand shake. 'Good game.'"</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=shake+hands+at+the+end+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
-  </div>
+  
+      <a class="video-link" href="https://www.youtube.com/results?search_query=golf+etiquette+being+quiet+rule" target="_blank" rel="noopener">▶ Watch</a>
+    </div>
 
   <div class="pull-quote">
     Golf is the only sport where the rules ask you to call penalties on YOURSELF. That's why golfers respect each other so much. Honesty IS the game.
+  </div>
+
+  <h3 style="margin: 2.5rem 0 0.8rem">Watch &amp; learn the rules</h3>
+  <p style="color:var(--ink-soft); margin-bottom:1rem">Short videos that explain how the game is played. Watch a couple before your first session.</p>
+  <div class="card-grid">
+  <div class="card">
+    <div class="card-icon">🎬</div>
+    <h3>Golf Rules Explained</h3>
+    <a class="video-link" href="https://www.youtube.com/results?search_query=golf+rules+explained+simply+kids" target="_blank" rel="noopener">▶ Watch</a>
+  </div>
+  <div class="card">
+    <div class="card-icon">🎬</div>
+    <h3>Golf Etiquette</h3>
+    <a class="video-link" href="https://www.youtube.com/results?search_query=golf+etiquette+basics+kids" target="_blank" rel="noopener">▶ Watch</a>
+  </div>
+  <div class="card">
+    <div class="card-icon">🎬</div>
+    <h3>On-Course Behavior</h3>
+    <a class="video-link" href="https://www.youtube.com/results?search_query=on+course+golf+behavior+for+beginners" target="_blank" rel="noopener">▶ Watch</a>
+  </div>
+  <div class="card">
+    <div class="card-icon">🎬</div>
+    <h3>Pace of Play</h3>
+    <a class="video-link" href="https://www.youtube.com/results?search_query=golf+pace+of+play+tutorial" target="_blank" rel="noopener">▶ Watch</a>
+  </div>
   </div>
 </section>
 
@@ -933,38 +1196,52 @@
       <h3>The Grip</h3>
       <p class="summary">How you hold the club. Hands TOGETHER, pinkies and thumbs touching. Soft hands, not a death grip. Same grip for every club except the putter.</p>
       <span class="cue">"Soft hands. Together."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=the+grip+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🦵</div>
       <h3>The Stance</h3>
       <p class="summary">Feet shoulder-width apart. Knees slightly bent. Spine straight but TILTED forward from the hips. Ball in the middle of your feet.</p>
       <span class="cue">"Soft knees. Tilt forward."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=the+stance+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🟢</div>
       <h3>Putting</h3>
       <p class="summary">The putter ONLY. No wrists — your shoulders rock back and forth like a pendulum. Eyes over the ball. Smooth rhythm.</p>
       <span class="cue">"Pendulum. No wrists."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=putting+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">⛳</div>
       <h3>Chipping</h3>
       <p class="summary">Like putting but with a wedge. Small backswing. Brush the grass under the ball. Ball flies a little, rolls a lot.</p>
       <span class="cue">"Brush. Pop. Roll."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=chipping+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🏌️</div>
       <h3>The Full Swing</h3>
       <p class="summary">Back, up, and around — turn your shoulders. Then unwind through the ball. End with your belly facing the target. SMOOTH, not hard.</p>
       <span class="cue">"Turn, unwind, finish."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=the+full+swing+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🎯</div>
       <h3>Aim &amp; Alignment</h3>
       <p class="summary">Before EVERY shot: pick a target. Line up your clubface at the target. Then line up your feet PARALLEL (like train tracks).</p>
       <span class="cue">"Clubface. Then feet."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=aim+alignment+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
-  </div>
+  
+      <a class="video-link" href="https://www.youtube.com/results?search_query=how+to+hold+golf+club+grip+tutorial" target="_blank" rel="noopener">▶ Watch</a>
+    </div>
 
   <h3 style="margin:2rem 0 0.8rem">The Pre-Shot Routine (do it EVERY shot)</h3>
   <div class="card">
@@ -997,32 +1274,148 @@
       <h3>Squat behind ball</h3>
       <p class="summary">Crouch behind your ball, looking at the hole. See the BIG slope of the green.</p>
       <span class="cue">"Behind the ball."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=squat+behind+ball+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">2️⃣</div>
       <h3>Look at the hole</h3>
       <p class="summary">Walk to the hole. Crouch on the OTHER side. Look back at your ball. See the slope from there too.</p>
       <span class="cue">"From both sides."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=look+at+the+hole+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">3️⃣</div>
       <h3>Pick a line</h3>
       <p class="summary">Imagine a curved line from your ball to the hole. Pick a spot along that line to roll the ball OVER.</p>
       <span class="cue">"Curve = the line."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=pick+a+line+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">4️⃣</div>
       <h3>Pick a speed</h3>
       <p class="summary">Uphill = harder. Downhill = softer. Aim to roll the ball 12-18 INCHES PAST the hole if you miss.</p>
       <span class="cue">"Past the hole, not short."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=pick+a+speed+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">5️⃣</div>
       <h3>Trust it &amp; roll</h3>
       <p class="summary">Set up over the ball. ONE last look at the target. Smooth pendulum. Trust your line.</p>
       <span class="cue">"One look. Smooth roll."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=trust+it+roll+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
+  
+      <a class="video-link" href="https://www.youtube.com/results?search_query=squat+behind+ball+golf" target="_blank" rel="noopener">▶ Watch</a>
+    </div>
+
+<h3 style="margin: 2.5rem 0 0.8rem">Club Selection Guide (which club, when)</h3>
+<p style="color:var(--ink-soft); margin-bottom:1rem">A junior bag usually has 5-7 clubs. Each one is for a different distance. The closer you are to the green, the shorter the club. Learning which club to use is half the game.</p>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-icon">🚀</div>
+    <h3>Driver</h3>
+    <p class="summary">The longest club. Use ONLY on the tee box for long holes. Tee the ball HIGH. Big swing, smooth tempo. Hits the farthest of any club.</p>
+    <span class="cue">"Tee. High. Smooth."</span>
+    <a class="video-link" href="https://www.youtube.com/results?search_query=junior+golf+driver+swing+tutorial" target="_blank" rel="noopener">▶ Watch driver basics</a>
   </div>
+  <div class="card">
+    <div class="card-icon">🔀</div>
+    <h3>Hybrid / 5-Wood</h3>
+    <p class="summary">For long shots from the fairway or rough. Easier to hit than a long iron. Most junior bags have one — use it instead of a 3 or 4 iron.</p>
+    <span class="cue">"Long shots from the grass."</span>
+    <a class="video-link" href="https://www.youtube.com/results?search_query=junior+golf+hybrid+club+how+to" target="_blank" rel="noopener">▶ Watch hybrid use</a>
+  </div>
+  <div class="card">
+    <div class="card-icon">7️⃣</div>
+    <h3>7-Iron</h3>
+    <p class="summary">The MOST useful junior club. Use from the fairway for medium-distance shots. Easy to hit. Goes a predictable distance. Learn this one well.</p>
+    <span class="cue">"My go-to iron."</span>
+    <a class="video-link" href="https://www.youtube.com/results?search_query=junior+golf+7+iron+swing+tutorial" target="_blank" rel="noopener">▶ Watch 7-iron basics</a>
+  </div>
+  <div class="card">
+    <div class="card-icon">9️⃣</div>
+    <h3>9-Iron / Pitching Wedge</h3>
+    <p class="summary">For shots within 50-80 yards of the green. Higher arc, lands softer. Use when you can almost see the flag.</p>
+    <span class="cue">"Almost there shots."</span>
+    <a class="video-link" href="https://www.youtube.com/results?search_query=junior+golf+pitching+wedge" target="_blank" rel="noopener">▶ Watch the wedge</a>
+  </div>
+  <div class="card">
+    <div class="card-icon">⛳</div>
+    <h3>Sand Wedge (SW)</h3>
+    <p class="summary">For shots OUT of the sand bunker. Also great for chips near the green that need to fly OVER something. Heavy bottom, fat bounce.</p>
+    <span class="cue">"Sand and high chips."</span>
+    <a class="video-link" href="https://www.youtube.com/results?search_query=junior+golf+sand+wedge+chipping" target="_blank" rel="noopener">▶ Watch sand wedge</a>
+  </div>
+  <div class="card">
+    <div class="card-icon">🟢</div>
+    <h3>Putter</h3>
+    <p class="summary">For the green ONLY. Roll the ball into the hole. Pendulum swing — shoulders, no wrists. Most strokes in your round will be putts.</p>
+    <span class="cue">"Roll it home."</span>
+    <a class="video-link" href="https://www.youtube.com/results?search_query=junior+golf+putting+tutorial" target="_blank" rel="noopener">▶ Watch putting</a>
+  </div>
+</div>
+
+<div class="card" style="margin-top:1.5rem; background: var(--cream-deep);">
+  <h3>Quick rule: "When in doubt, take less club"</h3>
+  <p>If you're not sure whether you need a 7-iron or a 9-iron — take the SHORTER one (9). You'll swing more confidently. Most amateur shots come up SHORT, not long. Big swings with the wrong club ruin shots; smooth swings with a slightly-too-short club still work out.</p>
+</div>
+
+<h3 style="margin: 2.5rem 0 0.8rem">The Kittansett Simulator</h3>
+<p style="color:var(--ink-soft); margin-bottom:1rem">Kittansett has an indoor golf simulator the boys will use in the summer. It's a full HD screen, a hitting mat, and sensors that measure every swing. You hit a real ball into a screen, and the simulator shows where it would have gone on a real course. Magic.</p>
+<div class="card-grid">
+  <div class="card">
+    <div class="card-icon">🖥️</div>
+    <h3>What it is</h3>
+    <p class="summary">A room with a giant screen and a hitting mat. You set up the simulator to play any famous course (Pebble Beach, St Andrews, Augusta — yes really). You swing at a real ball. Sensors measure speed, spin, angle. Then it shows the ball flight on screen.</p>
+    <span class="cue">"Real swing. Virtual course."</span>
+  
+      <a class="video-link" href="https://www.youtube.com/results?search_query=what+it+is+golf" target="_blank" rel="noopener">▶ Watch</a>
+    </div>
+  <div class="card">
+    <div class="card-icon">✅</div>
+    <h3>What carries over to real golf</h3>
+    <p class="summary">EVERYTHING that matters: your grip, your stance, your full swing, your alignment, your tempo. The simulator can't help you on the green much (putting is different), but for full shots, what you do here is exactly what you do outside.</p>
+    <span class="cue">"Same swing. Real practice."</span>
+  
+      <a class="video-link" href="https://www.youtube.com/results?search_query=what+carries+over+to+real+golf+golf" target="_blank" rel="noopener">▶ Watch</a>
+    </div>
+  <div class="card">
+    <div class="card-icon">⚠️</div>
+    <h3>What's different</h3>
+    <p class="summary">No wind, no rain, no weird grass lies. The ball always sits up perfectly. Putts are simplified. You can't feel the green slope. So the simulator is GREAT for swing practice and OK for "play a round" — but real courses still teach things the simulator can't.</p>
+    <span class="cue">"Practice tool, not replacement."</span>
+  
+      <a class="video-link" href="https://www.youtube.com/results?search_query=whats+different+golf" target="_blank" rel="noopener">▶ Watch</a>
+    </div>
+  <div class="card">
+    <div class="card-icon">🎯</div>
+    <h3>How to use it well</h3>
+    <p class="summary">Don't just bash drives. Practice with a PURPOSE. Pick a club. Pick a target distance shown on screen. Hit 10 balls. Look at the dispersion (how spread out your shots are). Adjust. Hit 10 more. Track your progress with the simulator's data.</p>
+    <span class="cue">"Aim. Hit 10. Adjust."</span>
+  </div>
+  <div class="card">
+    <div class="card-icon">🤫</div>
+    <h3>Simulator etiquette</h3>
+    <p class="summary">Same as real golf, mostly: be quiet when others swing, don't hit when the sensors are resetting, treat the equipment well. Listen to the pro running the room — they know the tech.</p>
+    <span class="cue">"Quiet during swings."</span>
+  </div>
+  <div class="card">
+    <div class="card-icon">🌧️</div>
+    <h3>Best use case</h3>
+    <p class="summary">Rainy days. Cold days. Off-season. Days when the course is closed. The simulator means you NEVER have to skip practice — and you can practice with instant feedback the course can't give.</p>
+    <span class="cue">"No bad weather days now."</span>
+    <a class="video-link" href="https://www.youtube.com/results?search_query=golf+simulator+kids+tutorial" target="_blank" rel="noopener">▶ Watch simulator basics</a>
+  </div>
+</div>
+<div class="card" style="margin-top:1rem; background: var(--cream-deep);">
+  <h3>Pro tip for Alexander &amp; Nicolas</h3>
+  <p>Use the simulator's <strong>shot tracking</strong> to find each boy's "stock" yardages. After 10-20 swings with each club, the simulator can show the AVERAGE distance — write those numbers down. That's the real number for that club, FOR THAT KID. Way more useful than a generic chart.</p>
+</div>
 </section>
 
 <!-- LESSON PLANS -->
@@ -1212,68 +1605,92 @@
       <h3>Putting Contest</h3>
       <p class="summary">10 putts from the same spot. Whoever makes MORE wins. Vary the distances. Loser racks up the balls.</p>
       <span class="cue">"Steady rhythm."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=putting+contest+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🪜</div>
       <h3>Ladder Putting</h3>
       <p class="summary">Set up 5 balls at 2 feet, 4 feet, 6 feet, 8 feet, 10 feet. Make them in order. Miss = start over.</p>
       <span class="cue">"Build the ladder."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=ladder+putting+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🎯</div>
       <h3>Chip the Hoop</h3>
       <p class="summary">Lay a hula hoop on the lawn. 10 chips. How many land IN the hoop? Move the hoop further each round.</p>
       <span class="cue">"Land it in."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=chip+the+hoop+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🚧</div>
       <h3>Tin Can Chip</h3>
       <p class="summary">A big plastic bucket on its side, 20 feet away. Chip balls into it. CHING! when you make it.</p>
       <span class="cue">"Aim for the can."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=tin+can+chip+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🎈</div>
       <h3>Pop the Balloon</h3>
       <p class="summary">Tie balloons to stakes in the yard at different distances. Chip until you POP one. Move on.</p>
       <span class="cue">"Pop the target."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=pop+the+balloon+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🔢</div>
       <h3>21</h3>
       <p class="summary">Putting game. Make a 3-footer = 1 point. Make a 6-footer = 2 points. Make a 10-footer = 3 points. First to 21 wins.</p>
       <span class="cue">"Points add up."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=21+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🏆</div>
       <h3>Up &amp; Down</h3>
       <p class="summary">Chip onto the green. Then putt out. The combo = 2 strokes. Did you "get up and down"? Aim for it.</p>
       <span class="cue">"Chip. Putt. Done."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=up+down+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🐢</div>
       <h3>Slow Swing Contest</h3>
       <p class="summary">Who can swing the SMOOTHEST and the SLOWEST and still hit the ball? Tempo over power.</p>
       <span class="cue">"Smooth. Slow. Solid."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=slow+swing+contest+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🎲</div>
       <h3>Club Roulette</h3>
       <p class="summary">Daddy randomly picks a club for you. You have to figure out how to hit the shot with THAT club. Builds creativity.</p>
       <span class="cue">"Figure it out."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=club+roulette+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">📏</div>
       <h3>Distance Discovery</h3>
       <p class="summary">At the range. Hit 5 shots with each club. Pace off the average distance. Write it down. Build your "yardages."</p>
       <span class="cue">"Know your numbers."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=distance+discovery+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
     <div class="card">
       <div class="card-icon">🚲</div>
       <h3>Cart Path Only</h3>
       <p class="summary">Walking 9 holes? Try carrying or pulling. Walking golf is the BEST way to learn the game. Real feel for distance.</p>
       <span class="cue">"Walk. Don't ride."</span>
+    
+      <a class="video-link" href="https://www.youtube.com/results?search_query=cart+path+only+golf" target="_blank" rel="noopener">▶ Watch</a>
     </div>
-  </div>
+  
+      <a class="video-link" href="https://www.youtube.com/results?search_query=golf+putting+contest+game+kids" target="_blank" rel="noopener">▶ Watch</a>
+    </div>
 
   <h3 style="margin: 2rem 0 0.7rem">Watch fun golf games in action</h3>
   <div class="card-grid">
@@ -1403,8 +1820,27 @@
     Music is part of golfing. Songs help you preview what's coming, regulate your body between segments, and celebrate the joy of a good day on the course. Each song is made just for you on Suno. Tap to play. Add new ones any time.
   </div>
 <div class="user-songs-section">
-  <button class="add-song-btn" id="add-song-btn" type="button">+ Add a Suno Song</button>
-  <div id="user-songs-list"></div>
+  
+<div class="card song-add-inline" id="song-add-inline">
+  <h3>🎵 Add a Suno Song</h3>
+  <p style="margin: 0 0 0.85rem; color: var(--ink-soft, #6b6754); font-size: 0.95rem;">
+    Made a song on Suno? Paste the share link here so it lives in your playlist forever.
+  </p>
+  <div class="song-add-inline-row">
+    <label for="song-title-input">Song Title</label>
+    <input type="text" id="song-title-input" placeholder="e.g. My Hype Song" autocomplete="off" autocapitalize="words" />
+  </div>
+  <div class="song-add-inline-row">
+    <label for="song-url-input">Suno URL</label>
+    <input type="url" id="song-url-input" placeholder="https://suno.com/s/..." autocomplete="off" autocapitalize="none" inputmode="url" />
+  </div>
+  <button class="song-add-inline-btn" id="song-add-inline-btn" type="button">Add to Playlist</button>
+  <div class="song-add-inline-status" id="song-add-status" role="status" aria-live="polite"></div>
+</div>
+<div id="user-songs-list"></div>
+
+
+  
 </div>
 
 
@@ -1473,21 +1909,6 @@
 </section>
 
 
-<div class="song-modal-overlay" id="song-modal" hidden>
-  <div class="song-modal-box" role="dialog" aria-modal="true" aria-labelledby="song-modal-title">
-    <h3 id="song-modal-title">Add a Suno Song</h3>
-    <label class="song-modal-label" for="song-title-input">Song Title</label>
-    <input type="text" id="song-title-input" placeholder="e.g. Hype Song" autocomplete="off">
-    <label class="song-modal-label" for="song-url-input">Suno URL</label>
-    <input type="url" id="song-url-input" placeholder="https://suno.com/s/...">
-    <p class="song-modal-hint">Paste the share link from Suno (the URL of the song page).</p>
-    <div class="song-modal-actions">
-      <button class="song-modal-btn cancel" id="song-modal-cancel" type="button">Cancel</button>
-      <button class="song-modal-btn save"   id="song-modal-save"   type="button">Save</button>
-    </div>
-  </div>
-</div>
-
 </main>
 
 <script>
@@ -1506,7 +1927,9 @@
 </script>
 
 <script>
-(function() {
+(function(){
+  // === Robust Suno song manager ===
+  // Inline form (no modal), works in PWA standalone mode on iPad.
   var STORAGE_KEY = 'songs-golf-nicolas';
   var GRADIENT = 'linear-gradient(135deg, #4a9c8f, #2d6e63)';
 
@@ -1516,33 +1939,47 @@
   }
   function saveSongs(songs) {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(songs)); return true; }
-    catch(e) { alert('Could not save. Storage may be full or unavailable.'); return false; }
+    catch(e) { return false; }
   }
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function(c) {
       return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
     });
   }
+  function openSong(url) {
+    // Works in PWA standalone mode on iOS too
+    try {
+      var w = window.open(url, '_blank', 'noopener');
+      if (!w || w.closed || typeof w.closed === 'undefined') {
+        window.location.href = url;
+      }
+    } catch(e) {
+      window.location.href = url;
+    }
+  }
   function render() {
     var container = document.getElementById('user-songs-list');
     if (!container) return;
     var songs = getSongs();
     if (!songs.length) {
-      container.innerHTML = '<p class="user-songs-empty">No songs yet — tap "Add a Suno Song" to add your first one.</p>';
+      container.innerHTML = '<p class="user-songs-empty">No songs added yet — paste a Suno link above to add your first one.</p>';
       return;
     }
-    var html = '<h3 style="margin-top:1.4rem; margin-bottom:0.6rem">Your Songs</h3>';
-    html += '<div class="card-grid">';
+    var h = '<h3 style="margin-top:1.4rem; margin-bottom:0.6rem">Your Songs</h3>';
+    h += '<div class="card-grid">';
     songs.forEach(function(s) {
-      html += '<div class="card song-card">';
-      html += '<div class="card-icon" style="background:' + GRADIENT + '; color:#fff">🎵</div>';
-      html += '<h3>' + esc(s.title) + '</h3>';
-      html += '<a class="play-button" href="' + esc(s.url) + '" target="_blank" rel="noopener"><span class="icon">▶</span> Play on Suno</a>';
-      html += '<button class="song-card-remove" data-id="' + esc(String(s.id)) + '" type="button">× Remove</button>';
-      html += '</div>';
+      h += '<div class="card song-card">';
+      h += '<div class="card-icon" style="background:' + GRADIENT + '; color:#fff">🎵</div>';
+      h += '<h3>' + esc(s.title) + '</h3>';
+      h += '<button class="song-card-play" data-url="' + esc(s.url) + '" type="button">▶ Play on Suno</button>';
+      h += '<button class="song-card-remove" data-id="' + esc(String(s.id)) + '" type="button">× Remove</button>';
+      h += '</div>';
     });
-    html += '</div>';
-    container.innerHTML = html;
+    h += '</div>';
+    container.innerHTML = h;
+    Array.prototype.forEach.call(container.querySelectorAll('.song-card-play'), function(btn) {
+      btn.addEventListener('click', function() { openSong(btn.getAttribute('data-url')); });
+    });
     Array.prototype.forEach.call(container.querySelectorAll('.song-card-remove'), function(btn) {
       btn.addEventListener('click', function() {
         var id = btn.getAttribute('data-id');
@@ -1554,39 +1991,66 @@
       });
     });
   }
-  function show() {
-    document.getElementById('song-title-input').value = '';
-    document.getElementById('song-url-input').value = '';
-    document.getElementById('song-modal').hidden = false;
-    setTimeout(function() {
-      var t = document.getElementById('song-title-input');
-      if (t) t.focus();
-    }, 50);
+  function setStatus(msg, kind) {
+    var el = document.getElementById('song-add-status');
+    if (!el) return;
+    el.textContent = msg;
+    el.className = 'song-add-inline-status ' + (kind || '');
+    if (kind === 'success') {
+      setTimeout(function(){
+        if (el.textContent === msg) { el.textContent = ''; el.className = 'song-add-inline-status'; }
+      }, 3500);
+    }
   }
-  function hide() {
-    document.getElementById('song-modal').hidden = true;
-  }
-  function save() {
-    var title = document.getElementById('song-title-input').value.trim();
-    var url = document.getElementById('song-url-input').value.trim();
-    if (!title) { alert('Please enter a song title.'); return; }
-    if (!url) { alert('Please paste a Suno URL.'); return; }
-    if (!/^https?:\/\//i.test(url)) { alert('URL must start with http:// or https://'); return; }
+  function addSong() {
+    var titleEl = document.getElementById('song-title-input');
+    var urlEl = document.getElementById('song-url-input');
+    var title = (titleEl.value || '').trim();
+    var url = (urlEl.value || '').trim();
+    if (!title) { setStatus('Please add a song title.', 'error'); titleEl.focus(); return; }
+    if (!url) { setStatus('Please paste the Suno URL.', 'error'); urlEl.focus(); return; }
+    if (!/^https?:\/\//i.test(url)) { setStatus('URL must start with https://', 'error'); urlEl.focus(); return; }
     var songs = getSongs();
     songs.push({ id: Date.now(), title: title, url: url });
-    if (saveSongs(songs)) { hide(); render(); }
-  }
-  function init() {
-    var b = document.getElementById('add-song-btn'); if (b) b.addEventListener('click', show);
-    var c = document.getElementById('song-modal-cancel'); if (c) c.addEventListener('click', hide);
-    var s = document.getElementById('song-modal-save'); if (s) s.addEventListener('click', save);
-    var m = document.getElementById('song-modal');
-    if (m) m.addEventListener('click', function(e) { if (e.target === m) hide(); });
+    if (!saveSongs(songs)) { setStatus('Could not save (storage may be full).', 'error'); return; }
+    titleEl.value = ''; urlEl.value = '';
+    setStatus('✓ Added "' + title + '" to your playlist.', 'success');
     render();
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else { init(); }
+  function init() {
+    var btn = document.getElementById('song-add-inline-btn');
+    if (btn) btn.addEventListener('click', addSong);
+    var urlEl = document.getElementById('song-url-input');
+    if (urlEl) {
+      urlEl.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); addSong(); }
+      });
+    }
+    render();
+  }
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+
+
+<script>
+(function(){
+  function scrollActiveIntoView() {
+    var active = document.querySelector('nav.tabs .tab-btn.active');
+    if (active && active.scrollIntoView) {
+      try { active.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'center'}); }
+      catch(e) {}
+    }
+  }
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.tab-btn')) {
+      setTimeout(scrollActiveIntoView, 50);
+    }
+  });
+  // On load: scroll active tab into view
+  if (document.readyState !== 'loading') scrollActiveIntoView();
+  else document.addEventListener('DOMContentLoaded', scrollActiveIntoView);
 })();
 </script>
 
