@@ -1,0 +1,15 @@
+{
+  "name": "Nicolas's Golf",
+  "short_name": "Golf",
+  "description": "Nicolas's complete golf playbook — course, clubs, rules, skills, drills, games, and songs",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f8f4ea",
+  "theme_color": "#2d4a1b",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}

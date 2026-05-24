@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nicolas's Golf Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #f8f4ea;
+    --cream-deep: #ede4ce;
+    --navy: #1e3a5f;
+    --navy-deep: #0f2944;
+    --harbor: #4a90b8;
+    --harbor-light: #b0d4e6;
+    --signal-red: #c73e3a;
+    --signal-red-deep: #9c2a26;
+    --brass: #d4a857;
+    --brass-deep: #a37e3a;
+    --signal-yellow: #f5d547;
+    --sail-white: #fbfaf2;
+    --rope-tan: #c9a87a;
+    --ink: #15263b;
+    --ink-soft: #4a6580;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Plus Jakarta Sans', -apple-system, sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.55;
+    font-size: 17px;
+    background-image: 
+      radial-gradient(circle at 20% 10%, rgba(74,144,184,0.10), transparent 40%),
+      radial-gradient(circle at 80% 60%, rgba(212,168,87,0.08), transparent 40%);
+    min-height: 100vh;
+  }
+  h1,h2,h3,h4{font-family:'Fraunces', Georgia, serif; color: var(--ink); line-height:1.15;}
+  h1{font-size:clamp(2.2rem, 5vw, 3.6rem); font-weight:800; letter-spacing:-0.02em;}
+  h2{font-size:clamp(1.6rem, 3.5vw, 2.4rem); font-weight:700; letter-spacing:-0.015em;}
+  h3{font-size:clamp(1.2rem, 2.5vw, 1.5rem); font-weight:700;}
+  h4{font-size:1.05rem; font-weight:700; color: var(--navy);}
+  p{margin: 0 0 0.85em 0;}
+  a{color: var(--navy); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px;}
+  a:hover{color: var(--navy-deep);}
+
+  .top-banner{
+    background: linear-gradient(135deg, var(--navy), var(--navy-deep));
+    color: var(--cream);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .top-banner::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 30% 80%, rgba(74,144,184,0.4), transparent 60%),
+      radial-gradient(ellipse at 70% 20%, rgba(245,213,71,0.15), transparent 60%);
+    pointer-events: none;
+  }
+  .top-banner h1{color: var(--cream); position: relative;}
+  .top-banner .sub{
+    color: var(--harbor-light);
+    font-family:'Fraunces', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    margin-top: 0.5rem;
+    position: relative;
+  }
+  .ball-icon{display:none;}
+
+  nav.tabs{
+    background: var(--cream-deep);
+    border-bottom: 3px solid var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab-list{
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 0.5rem;
+    gap: 0.25rem;
+    flex-wrap: nowrap;
+    min-width: max-content;
+  }
+  .tab-btn{
+    background: transparent;
+    border: none;
+    padding: 0.95rem 0.9rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover{color: var(--navy); background: rgba(74,144,184,0.12);}
+  .tab-btn.active{
+    color: var(--navy-deep);
+    border-bottom-color: var(--signal-yellow);
+    background: var(--cream);
+  }
+
+  main{max-width: 1200px; margin: 0 auto; padding: 2rem 1.25rem 4rem;}
+
+  .panel{display:none; animation: fadeIn 0.4s ease;}
+  .panel.active{display:block;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  .section-intro{
+    background: var(--cream-deep);
+    border-left: 4px solid var(--signal-red);
+    padding: 1.4rem 1.6rem;
+    border-radius: 0 14px 14px 0;
+    margin-bottom: 2rem;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--ink);
+  }
+
+  .card-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 1.1rem;
+    margin: 1.2rem 0;
+  }
+  .card{
+    background: var(--cream-deep);
+    border-radius: 18px;
+    padding: 1.4rem;
+    border: 2px solid transparent;
+    transition: transform 0.18s, box-shadow 0.18s;
+    box-shadow: 0 1px 3px rgba(15,41,68,0.05);
+  }
+  .card:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(30,58,95,0.12);
+    border-color: var(--harbor-light);
+  }
+  .card-icon{
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--harbor), var(--navy));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: var(--cream);
+    margin-bottom: 0.9rem;
+  }
+  .card h3{margin-bottom: 0.5rem;}
+  .card .summary{color: var(--ink-soft); font-size: 0.96rem;}
+
+  .cue{
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--navy);
+    margin-top: 0.65rem;
+    padding: 0.4rem 0.75rem;
+    background: rgba(74, 144, 184, 0.16);
+    border-left: 3px solid var(--harbor);
+    border-radius: 0 8px 8px 0;
+    line-height: 1.35;
+  }
+  .cue::before{content: '💬'; margin-right: 0.4rem; font-style: normal;}
+  .legend-item .cue, .warmup-item .cue{font-size: 0.84rem; margin-top: 0.4rem; padding: 0.3rem 0.6rem;}
+  .blk-cue{
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--signal-red-deep);
+    margin-top: 0.25rem;
+  }
+  .blk-cue::before{content: '💬 '; font-style: normal;}
+
+  .video-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--signal-red);
+    color: var(--cream);
+    padding: 0.45rem 0.95rem;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: 0.9rem;
+    box-shadow: 0 2px 6px rgba(199,62,58,0.25);
+  }
+  .video-link:hover{color: var(--cream); background: var(--signal-red-deep);}
+  .wk-vid{
+    display: inline-block;
+    background: var(--cream);
+    color: var(--signal-red-deep);
+    padding: 0.3rem 0.7rem;
+    border: 1.5px solid var(--signal-red);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: 0.7rem;
+  }
+  .wk-vid:hover{background: var(--signal-red); color: var(--cream);}
+  .game-vid{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.6rem;
+    background: transparent;
+    color: var(--signal-red-deep);
+    padding: 0.3rem 0.7rem;
+    border: 1.5px solid var(--signal-red);
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .game-vid:hover{background: var(--signal-red); color: var(--cream);}
+
+  .boat-wrap{
+    background: var(--cream-deep);
+    padding: 1.5rem;
+    border-radius: 18px;
+    margin: 1rem 0 2rem;
+  }
+  .boat-wrap svg{width:100%; height:auto; max-height:460px; display:block;}
+  .boat-title{
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--navy-deep);
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .boat-pill{
+    background: var(--brass);
+    color: var(--navy-deep);
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .boat-pill.c420{background: var(--harbor); color: var(--cream);}
+  .boat-svg .water{fill: var(--harbor); opacity: 0.18;}
+  .boat-svg .hull{fill: var(--brass); stroke: var(--navy-deep); stroke-width: 2;}
+  .boat-svg .hull-c420{fill: var(--sail-white); stroke: var(--navy-deep); stroke-width: 2;}
+  .boat-svg .sail{fill: var(--sail-white); stroke: var(--navy-deep); stroke-width: 1.5;}
+  .boat-svg .spar{stroke: var(--navy-deep); stroke-width: 3; fill: none;}
+  .boat-svg .line{stroke: var(--ink-soft); stroke-width: 1.5; fill: none; stroke-dasharray: 4,3;}
+  .boat-svg .rope{stroke: var(--rope-tan); stroke-width: 2; fill: none;}
+  .boat-svg .foil{fill: var(--navy); opacity: 0.8;}
+  .boat-svg .pointer{stroke: var(--signal-red); stroke-width: 1.5; fill: none;}
+  .boat-svg .pointer-dot{fill: var(--signal-red);}
+  .boat-svg .label{font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; font-weight: 700; fill: var(--navy-deep);}
+  .boat-svg .label-sm{font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; font-weight: 600; fill: var(--ink-soft);}
+  .legend-item{
+    background: var(--cream-deep);
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    border-left: 3px solid var(--harbor);
+  }
+  .legend-item strong{color: var(--navy); display: block; margin-bottom: 0.3rem;}
+  .court-legend{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.7rem;
+  }
+
+  .format-card{
+    background: var(--cream-deep);
+    border-radius: 20px;
+    padding: 1.6rem;
+    margin: 1.2rem 0;
+    border-top: 5px solid var(--harbor);
+  }
+  .format-card.fmt-A{border-top-color: var(--brass);}
+  .format-card.fmt-B{border-top-color: var(--harbor);}
+  .format-card.fmt-C{border-top-color: var(--signal-red);}
+  .format-card.fmt-D{border-top-color: #6b4f8f;}
+  .format-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 0.7rem;
+  }
+  .format-pill{
+    display: inline-block;
+    padding: 0.35rem 0.85rem;
+    background: var(--harbor);
+    color: var(--cream);
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+  }
+  .fmt-A .format-pill{background: var(--brass); color: var(--navy-deep);}
+  .fmt-B .format-pill{background: var(--harbor); color: var(--cream);}
+  .fmt-C .format-pill{background: var(--signal-red); color: var(--cream);}
+  .fmt-D .format-pill{background: #6b4f8f; color: var(--cream);}
+  .format-versions{display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 1rem;}
+  @media (max-width: 720px){.format-versions{grid-template-columns: 1fr;}}
+  .version-block{background: var(--cream); padding: 1.1rem 1.2rem; border-radius: 14px;}
+  .version-block h4{
+    color: var(--navy);
+    margin-bottom: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .version-block .duration{
+    background: var(--navy);
+    color: var(--cream);
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+  .block-list{list-style: none; padding: 0; margin: 0;}
+  .block-list li{padding: 0.55rem 0; border-bottom: 1px dashed var(--cream-deep); display: flex; gap: 0.7rem;}
+  .block-list li:last-child{border-bottom: none;}
+  .blk-time{
+    background: var(--cream-deep);
+    color: var(--ink-soft);
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.74rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    height: fit-content;
+    min-width: 48px;
+    text-align: center;
+  }
+  .blk-name{font-weight: 700; color: var(--navy-deep); font-size: 0.94rem;}
+  .blk-desc{display: block; font-size: 0.86rem; color: var(--ink-soft); margin-top: 0.15rem;}
+
+  .phase-header{
+    background: linear-gradient(135deg, var(--navy), var(--navy-deep));
+    color: var(--cream);
+    padding: 1.2rem 1.5rem;
+    border-radius: 14px;
+    margin: 2rem 0 1rem;
+  }
+  .phase-header h3{color: var(--cream); margin-bottom: 0.3rem;}
+  .phase-header p{margin: 0; color: var(--harbor-light); font-family: 'Fraunces', serif; font-style: italic;}
+  .week-grid{display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.75rem;}
+  .week-card{
+    background: var(--cream-deep);
+    padding: 0.95rem 1.1rem;
+    border-radius: 12px;
+    border-left: 4px solid var(--harbor);
+  }
+  .week-card.fmt-A{border-left-color: var(--brass);}
+  .week-card.fmt-B{border-left-color: var(--harbor);}
+  .week-card.fmt-C{border-left-color: var(--signal-red);}
+  .week-card.fmt-D{border-left-color: #6b4f8f;}
+  .wk-num{
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--signal-red-deep);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+  .fmt-pill{padding: 0.05rem 0.45rem; border-radius: 5px; font-size: 0.7rem;}
+  .fmt-pill.A{background: var(--brass); color: var(--navy-deep);}
+  .fmt-pill.B{background: var(--harbor); color: var(--cream);}
+  .fmt-pill.C{background: var(--signal-red); color: var(--cream);}
+  .fmt-pill.D{background: #6b4f8f; color: var(--cream);}
+  .week-card h4{color: var(--navy-deep); margin: 0.15rem 0 0.4rem; font-size: 1rem;}
+  .week-card p{margin: 0; font-size: 0.86rem; color: var(--ink-soft);}
+
+  .warmup-grid{display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem; margin: 1.2rem 0 2rem;}
+  .warmup-item{
+    background: var(--cream-deep);
+    padding: 1rem 1.15rem;
+    border-radius: 12px;
+    border-left: 4px solid var(--brass);
+  }
+  .warmup-item h4{color: var(--navy); margin-bottom: 0.35rem; font-size: 1rem;}
+  .warmup-item p{margin: 0; font-size: 0.86rem; color: var(--ink-soft);}
+
+  .pull-quote{
+    background: linear-gradient(135deg, var(--navy), var(--navy-deep));
+    color: var(--cream);
+    padding: 1.6rem 2rem;
+    border-radius: 16px;
+    margin: 2rem 0;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    text-align: center;
+    position: relative;
+  }
+  .pull-quote::before, .pull-quote::after{
+    content: '"';
+    color: var(--signal-yellow);
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 0.4;
+  }
+  .pull-quote::before{margin-right: 0.4rem;}
+  .pull-quote::after{margin-left: 0.4rem;}
+
+  .story-page{
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    background: var(--cream-deep);
+    padding: 1.5rem;
+    border-radius: 16px;
+    margin: 1rem 0;
+  }
+  .story-page .img{
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--harbor), var(--navy));
+    border-radius: 16px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+  }
+  .story-page .text{font-size: 1.2rem; font-family: 'Fraunces', serif; font-weight: 500;}
+  .story-num{
+    display: block;
+    font-size: 0.78rem;
+    color: var(--signal-red-deep);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.25rem;
+  }
+
+  .song-card{background: linear-gradient(135deg, #fffaeb, var(--cream)); border: 2px solid var(--cream-deep);}
+  .song-card .song-id{font-size: 0.72rem; color: var(--ink-soft); font-family: 'Courier New', monospace; margin-top: 0.5rem; opacity: 0.65;}
+  .play-button{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: linear-gradient(135deg, var(--navy), var(--navy-deep));
+    color: var(--cream);
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: 0.8rem;
+    box-shadow: 0 3px 10px rgba(30,58,95,0.25);
+  }
+  .play-button:hover{color: var(--signal-yellow);}
+  .play-button .icon{
+    font-size: 1.05rem;
+    background: var(--signal-yellow);
+    color: var(--navy-deep);
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .song-add{
+    background: var(--cream-deep);
+    border: 2.5px dashed var(--navy);
+    border-radius: 18px;
+    padding: 1.4rem;
+    text-align: center;
+  }
+  .song-add ol{text-align: left; margin: 0.8rem 0 0 1.2rem; color: var(--ink-soft); font-size: 0.9rem;}
+  .song-uses{display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.7rem; margin-top: 1rem;}
+  .song-use{background: var(--sail-white); border-radius: 12px; padding: 0.85rem 1rem; border-left: 3px solid var(--brass);}
+  .song-use h4{font-size: 0.95rem; margin-bottom: 0.2rem;}
+  .song-use p{font-size: 0.86rem; color: var(--ink-soft); margin: 0;}
+
+  .resource-block{background: var(--cream-deep); padding: 1.5rem 1.7rem; border-radius: 16px; margin: 1rem 0;}
+  .resource-block h3{color: var(--navy); margin-bottom: 0.7rem; border-bottom: 2px solid var(--harbor); padding-bottom: 0.5rem;}
+  .resource-block ul{margin: 0.6rem 0 0 1.2rem; color: var(--ink-soft);}
+  .resource-block ul li{margin-bottom: 0.4rem;}
+
+  .knot-card{
+    background: var(--cream-deep);
+    padding: 1.3rem 1.4rem;
+    border-radius: 14px;
+    border-left: 4px solid var(--rope-tan);
+  }
+  .knot-card h4{font-family: 'Fraunces', serif; font-size: 1.15rem; color: var(--navy-deep); margin-bottom: 0.4rem;}
+  .knot-card .knot-when{font-size: 0.85rem; color: var(--ink-soft); font-style: italic; margin-bottom: 0.5rem;}
+  .knot-card ol{margin-left: 1.2rem; font-size: 0.92rem; color: var(--ink-soft);}
+  .knot-card ol li{margin-bottom: 0.3rem;}
+
+  .pos-clock{background: var(--cream-deep); padding: 1.4rem; border-radius: 18px; margin: 1.2rem 0; text-align: center;}
+  .pos-clock svg{max-width: 480px; width:100%; height:auto;}
+
+  @media print{
+    .tabs{display:none}
+    .panel{display:block !important; page-break-after: always;}
+    body{background: white;}
+  }
+  @media (max-width: 640px){
+    main{padding: 1.25rem 0.85rem 3rem;}
+    .top-banner{padding: 1.5rem 1rem;}
+    .story-page{flex-direction:column; text-align:center; padding: 1.4rem 1.1rem;}
+    .story-page .text{font-size: 1.1rem;}
+  }
+
+/* In-app Suno song manager */
+.user-songs-section { margin: 1rem 0 1.5rem; }
+.add-song-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.85rem 1.6rem;
+  background: linear-gradient(135deg, #4a9c8f, #2d6e63);
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 1rem;
+  font-family: inherit;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  text-decoration: none;
+}
+.add-song-btn:hover { transform: translateY(-1px); }
+.add-song-btn:active { transform: translateY(1px); }
+.user-songs-empty {
+  margin-top: 0.7rem;
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+.song-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+.song-modal-overlay[hidden] { display: none !important; }
+.song-modal-box {
+  background: var(--cream, #f8f4ea);
+  padding: 1.5rem;
+  border-radius: 18px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+}
+.song-modal-box h3 { margin: 0 0 1rem; }
+.song-modal-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0.6rem 0 0.3rem;
+  color: var(--ink-soft, #555);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.song-modal-box input {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border: 2px solid var(--cream-deep, #ddd);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 1rem;
+  box-sizing: border-box;
+  background: #fff;
+}
+.song-modal-box input:focus {
+  outline: none;
+  border-color: #888;
+}
+.song-modal-hint {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin: 0.3rem 0 0;
+}
+.song-modal-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 1.3rem;
+}
+.song-modal-btn {
+  padding: 0.7rem 1.3rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+.song-modal-btn.cancel { background: var(--cream-deep, #eee); color: var(--ink, #333); }
+.song-modal-btn.save  { background: linear-gradient(135deg, #4a9c8f, #2d6e63); color: #fff; }
+.song-card-remove {
+  display: inline-block;
+  margin-top: 0.7rem;
+  font-size: 0.78rem;
+  background: none;
+  border: none;
+  color: var(--ink-soft, #888);
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: inherit;
+  padding: 0;
+}
+.song-card-remove:hover { color: #c73e3a; }
+
+</style>
+</head>
+<body>
+
+<header class="top-banner">
+  <h1>Nicolas's Golf Playbook  ⛳</h1>
+  <p class="sub">A picture guide to the course, the clubs, the swing, and the joy of a great round — for two brothers, learning a game they can love forever.</p>
+</header>
+
+<nav class="tabs" aria-label="Sections">
+  <div class="tab-list" role="tablist">
+    <button class="tab-btn active" data-tab="welcome">🏁 Start Here</button>
+    <button class="tab-btn" data-tab="course">⛳ The Course</button>
+    <button class="tab-btn" data-tab="rules">📋 Rules &amp; Safety</button>
+    <button class="tab-btn" data-tab="skills">🎯 Skills &amp; Moves</button>
+    <button class="tab-btn" data-tab="program">📅 Lesson Plans</button>
+    <button class="tab-btn" data-tab="games">🎮 Fun Games</button>
+    <button class="tab-btn" data-tab="story">📖 Golf Story</button>
+    <button class="tab-btn" data-tab="songs">🎵 Golf Songs</button>
+    <button class="tab-btn" data-tab="parents">💡 For Parents</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- WELCOME -->
+<section class="panel active" id="welcome">
+  <div class="section-intro">
+    Welcome, Nicolas. Today you start learning golf. You and your brother Alexander — two brothers, one game you can love your whole life, played anywhere there's grass and a flag. The plan: <strong>learn the basics first</strong>. The clubs. The grip. The stance. The pre-shot routine. Then putting. Then chipping. Then the full swing. Then real holes. Golf is not about being strong. It's about being patient with yourself, building good habits, and enjoying every walk between shots. Take your time. Look at the pictures. Watch a video. Try a putt on the carpet.
+  </div>
+
+  <h2>What's inside this playbook</h2>
+  <div class="card-grid" style="margin-top:1.2rem">
+    <div class="card">
+      <div class="card-icon">⛳</div>
+      <h3>The Course</h3>
+      <p class="summary">A picture map of a golf hole — tee box, fairway, rough, green, bunkers, the flag. Every part labeled. Every term defined.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📋</div>
+      <h3>Rules &amp; Safety</h3>
+      <p class="summary">10 simple rules of golf and golf etiquette. Quiet on the tee. "FORE!" Honors. Repair the green. The manners that make you welcome anywhere.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h3>Skills &amp; Moves</h3>
+      <p class="summary">The grip. The stance. Putting. Chipping. The full swing. The pre-shot routine. The moves every golfer knows.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📅</div>
+      <h3>Lesson Plans</h3>
+      <p class="summary">Four lesson formats that roll in over the year — starting with putting only for the first 6 weeks. 30-min and 60-min versions for Daddy.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎮</div>
+      <h3>Fun Games</h3>
+      <p class="summary">Brother games. Closest-to-the-pin. Putting contests. Things to play before, between, and after golf.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📖</div>
+      <h3>Your Golf Story</h3>
+      <p class="summary">A picture story about a golf day — what to expect, what to do, what to feel. Read it together before the round.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎵</div>
+      <h3>Golf Songs</h3>
+      <p class="summary">Custom Suno songs made just for you. Listen before a round to get ready, or after a great game to celebrate. Add new ones anytime.</p>
+    </div>
+  </div>
+
+  <div class="pull-quote">
+    The ocean doesn't care if you're new. It just is. Learn to read it, and the course will take you anywhere a golf bag can go.
+  </div>
+</section>
+
+<!-- THE BOATS -->
+<section class="panel" id="course">
+  <div class="section-intro">
+    A golf hole has a beginning, a middle, and an end. You start at the TEE BOX. You aim for the GREEN. You hole out at the FLAG. Everything in between is the adventure.
+  </div>
+
+  <div class="court-wrap">
+    <svg class="court-svg" viewBox="0 0 800 360" xmlns="http://www.w3.org/2000/svg" aria-label="Golf hole diagram (par 4)">
+      <!-- Sky -->
+      <rect x="0" y="0" width="800" height="80" fill="#cfe4ee"/>
+      <!-- Distant tree line -->
+      <g fill="#4a7c2c" opacity="0.7">
+        <circle cx="80" cy="75" r="22"/>
+        <circle cx="130" cy="78" r="18"/>
+        <circle cx="200" cy="76" r="24"/>
+        <circle cx="270" cy="79" r="16"/>
+        <circle cx="350" cy="74" r="22"/>
+        <circle cx="420" cy="78" r="20"/>
+        <circle cx="500" cy="77" r="24"/>
+        <circle cx="580" cy="78" r="18"/>
+        <circle cx="660" cy="76" r="22"/>
+        <circle cx="730" cy="78" r="20"/>
+      </g>
+
+      <!-- Rough (darker outer green - the whole rectangle) -->
+      <rect x="0" y="80" width="800" height="280" fill="#4d7a2e"/>
+
+      <!-- Fairway (lighter green winding strip from tee to green) -->
+      <path d="M 80 320 Q 80 280, 110 250 Q 200 200, 320 180 Q 450 165, 560 160 L 640 160 L 640 220 L 560 220 Q 450 220, 320 240 Q 200 260, 130 310 Q 100 330, 80 340 Z" fill="#6ba148"/>
+
+      <!-- Tee box (slightly elevated rectangle near bottom-left) -->
+      <rect x="60" y="305" width="60" height="35" fill="#8fc46a" stroke="#3d5e25" stroke-width="2" rx="3"/>
+      <!-- Tee markers (two small red dots) -->
+      <circle cx="75" cy="322" r="3" fill="#c73e3a"/>
+      <circle cx="105" cy="322" r="3" fill="#c73e3a"/>
+
+      <!-- Bunker (sand trap) — left side of fairway approach -->
+      <ellipse cx="400" cy="260" rx="55" ry="22" fill="#e8d49a" stroke="#a68549" stroke-width="2"/>
+      <!-- Bunker rake lines -->
+      <g stroke="#a68549" stroke-width="0.8" opacity="0.5">
+        <line x1="360" y1="260" x2="440" y2="260"/>
+        <line x1="365" y1="265" x2="435" y2="265"/>
+        <line x1="365" y1="255" x2="435" y2="255"/>
+      </g>
+
+      <!-- Bunker 2 — right side near green -->
+      <ellipse cx="560" cy="115" rx="35" ry="15" fill="#e8d49a" stroke="#a68549" stroke-width="2"/>
+
+      <!-- Water hazard (blue pond) — bottom middle, between tee and fairway -->
+      <ellipse cx="260" cy="310" rx="50" ry="18" fill="#5a9bc0" stroke="#1c3a5e" stroke-width="2"/>
+      <!-- Wave detail -->
+      <path d="M 220 308 Q 240 304, 260 308 T 300 308" stroke="#bce3f0" stroke-width="1.5" fill="none"/>
+
+      <!-- Green (large circle - putting surface) -->
+      <ellipse cx="630" cy="155" rx="65" ry="42" fill="#90c870" stroke="#3d5e25" stroke-width="2.5"/>
+      <!-- Hole (small dark circle) -->
+      <circle cx="645" cy="155" r="5" fill="#1a1a1a"/>
+      <!-- Flag pole -->
+      <line x1="645" y1="155" x2="645" y2="100" stroke="#1a1a1a" stroke-width="2"/>
+      <!-- Flag (red triangle) -->
+      <polygon points="645,100 680,108 645,118" fill="#c73e3a" stroke="#9c2a26" stroke-width="1.5"/>
+
+      <!-- Cart path (light gray winding line) -->
+      <path d="M 60 340 Q 250 340, 280 320 Q 320 300, 380 280 Q 470 250, 540 200 L 600 180" 
+            stroke="#9a9a9a" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.6"/>
+
+      <!-- Labels -->
+      <g font-family="Plus Jakarta Sans, sans-serif" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">
+        <text x="90" y="295">TEE BOX</text>
+        <text x="260" y="295">WATER HAZARD</text>
+        <text x="400" y="290">BUNKER (sand)</text>
+        <text x="630" y="200">GREEN (putting surface)</text>
+        <text x="700" y="90" fill="#1c3a5e">FLAG &amp; HOLE</text>
+        <text x="200" y="180" fill="#fff">FAIRWAY (mown grass)</text>
+        <text x="700" y="280" fill="#fff" font-size="11">ROUGH (longer grass)</text>
+        <text x="540" y="130" fill="#1c3a5e">BUNKER</text>
+      </g>
+    </svg>
+  </div>
+
+  <h3 style="margin: 1.2rem 0 0.7rem">The parts of a hole and what they mean</h3>
+  <div class="court-legend">
+    <div class="legend-item"><strong>Tee box</strong> Where you START each hole. You put a small wooden TEE in the ground and balance the ball on top. First shot of the hole.<span class="cue">"This is where you start."</span></div>
+    <div class="legend-item"><strong>Fairway</strong> The short-mown grass where you WANT your ball to land. Easier to hit your next shot from here.<span class="cue">"Aim for the fairway."</span></div>
+    <div class="legend-item"><strong>Rough</strong> The taller grass on each side of the fairway. Harder to hit from. If your ball lands here = it's still in play, just trickier.<span class="cue">"Avoid if you can."</span></div>
+    <div class="legend-item"><strong>Bunker (sand trap)</strong> A sandy pit. Looks pretty but tricky to hit out of. Use a special wedge club. Rake the sand after you're done.<span class="cue">"Out of the sand. Rake it."</span></div>
+    <div class="legend-item"><strong>Water hazard</strong> A pond or stream. Ball lands here = you lose a stroke and have to drop another ball. AVOID.<span class="cue">"Stay dry."</span></div>
+    <div class="legend-item"><strong>Green</strong> The very short, smooth grass around the hole. You PUTT here (use the putter, roll the ball into the hole).<span class="cue">"Roll, don't fly."</span></div>
+    <div class="legend-item"><strong>Hole &amp; flag</strong> The tiny cup in the green you're trying to get the ball into. The flag (also called the "pin") helps you see it from far away.<span class="cue">"That's the target."</span></div>
+    <div class="legend-item"><strong>Cart path</strong> The paved path where golf carts drive. If your ball lands here = you get a free drop off the path.<span class="cue">"Off the path."</span></div>
+  </div>
+
+  <h3 style="margin: 2rem 0 0.7rem">Golf grows with you</h3>
+  <p style="color:var(--ink-soft); margin-bottom:1rem">Golf has stages. Each one opens up more of the course. There is no rush. Every pro started on the practice green.</p>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon" style="background:linear-gradient(135deg,#90c870,#4d8033);color:var(--cream)">🟢</div>
+      <h3>Putting Stage</h3>
+      <p class="summary"><strong>What you learn here:</strong> the putter only. Rolling the ball into a hole from 3 feet. Then 6 feet. Then 10. Backyard putting green or kitchen carpet.</p>
+      <span class="cue">"Smooth roll. Just like rolling a marble."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:linear-gradient(135deg,#e8d49a,#a68549);color:var(--navy-deep)">⛳</div>
+      <h3>Chipping Stage</h3>
+      <p class="summary"><strong>What you learn here:</strong> short shots near the green. Ball flies a little, rolls a lot. Use a wedge. Backyard practice is perfect.</p>
+      <span class="cue">"Little fly. Big roll."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:linear-gradient(135deg,#7fb068,#3d6428);color:var(--cream)">🏌️</div>
+      <h3>Swing Stage</h3>
+      <p class="summary"><strong>What you learn here:</strong> the full swing with irons. Hitting the ball further. Driving range practice. First holes on the course.</p>
+      <span class="cue">"Smooth full swing."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon" style="background:linear-gradient(135deg,#1c3a5e,#0f2444);color:var(--cream)">🏆</div>
+      <h3>Course Stage</h3>
+      <p class="summary"><strong>What you learn here:</strong> playing real holes. Reading the wind. Picking clubs. Keeping score. By now your swing, your patience, and your love of the game are all yours.</p>
+      <span class="cue">"My swing. My game. Forever."</span>
+    </div>
+  </div>
+
+  <h3 style="margin:2rem 0 0.7rem">Watch &amp; learn</h3>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🎬</div>
+      <h3>Golf for Kids (basics)</h3>
+      <p class="summary">An intro to the parts of golf, gear, and how to start.</p>
+      <a class="video-link" href="https://www.youtube.com/results?search_query=golf+for+kids+beginners" target="_blank" rel="noopener">▶ Watch</a>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎬</div>
+      <h3>How to Hold a Golf Club</h3>
+      <p class="summary">The grip — the foundation of every swing.</p>
+      <a class="video-link" href="https://www.youtube.com/results?search_query=how+to+hold+golf+club+for+kids" target="_blank" rel="noopener">▶ Watch</a>
+    </div>
+  </div>
+</section>
+
+<!-- RULES & SAFETY -->
+<section class="panel" id="rules">
+  <div class="section-intro">
+    Golf has clear rules — and even more important, it has ETIQUETTE (good manners). Once you know them, you can play with anyone, anywhere. People LOVE playing with a polite golfer.
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🤫</div>
+      <h3>1. Be QUIET when others swing</h3>
+      <p class="summary">Don't talk, don't move, don't make noise. Stand STILL until the ball is hit. Then you can move. This is rule #1.</p>
+      <span class="cue">"Stand still. Stay quiet."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🗣️</div>
+      <h3>2. Yell "FORE!" loud</h3>
+      <p class="summary">If your shot heads toward ANYONE — yell "FORE!" as loud as you can. It warns them to duck. Always.</p>
+      <span class="cue">"FORE! Loud and fast."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h3>3. Honors (who hits first)</h3>
+      <p class="summary">At the tee box: the player who scored LOWEST on the last hole hits first. After the tee: the player FURTHEST from the hole hits next.</p>
+      <span class="cue">"Furthest plays first."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">⏱️</div>
+      <h3>4. Play ready, play fast</h3>
+      <p class="summary">When it's your turn, be ready. Don't waste time. Walk briskly. A round shouldn't drag.</p>
+      <span class="cue">"Be ready."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌱</div>
+      <h3>5. Repair the green</h3>
+      <p class="summary">If your ball makes a dent on the green when it lands, FIX IT. Use a small "ball mark repair" tool. Pop it up, then tap flat with the putter.</p>
+      <span class="cue">"Leave it better."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🕳️</div>
+      <h3>6. Replace divots</h3>
+      <p class="summary">When your club takes a chunk of grass out (a "divot") — PICK IT UP and place it back in the hole. Stomp it down.</p>
+      <span class="cue">"Put the grass back."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏖️</div>
+      <h3>7. Rake the bunker</h3>
+      <p class="summary">After hitting out of sand, use the RAKE (it's right there) to smooth your footprints and the spot where your ball was. Leave it like you found it.</p>
+      <span class="cue">"Rake it smooth."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🚶</div>
+      <h3>8. Don't walk on someone's line</h3>
+      <p class="summary">On the green, don't step between another player's ball and the hole. Your footprints could change how their putt rolls.</p>
+      <span class="cue">"Walk around, not across."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔢</div>
+      <h3>9. Count every stroke</h3>
+      <p class="summary">Every time you swing AT the ball (even if you miss) — that's a stroke. Count honestly. Tell your playing partner your score for each hole.</p>
+      <span class="cue">"Count them all."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤝</div>
+      <h3>10. Shake hands at the end</h3>
+      <p class="summary">When the round is over, take off your hat, shake hands with everyone you played with, say "good game" — win, lose, or in between.</p>
+      <span class="cue">"Hat off. Hand shake. 'Good game.'"</span>
+    </div>
+  </div>
+
+  <div class="pull-quote">
+    Golf is the only sport where the rules ask you to call penalties on YOURSELF. That's why golfers respect each other so much. Honesty IS the game.
+  </div>
+</section>
+
+<!-- SKILLS & MOVES -->
+<section class="panel" id="skills">
+  <div class="section-intro">
+    Every move in golf has a name and a feel. You'll learn the putt first (rolling the ball), then the chip (a small fly + roll), then the full swing (the big hit). Each one builds on the last.
+  </div>
+
+  <h3 style="margin-bottom:0.8rem">The 6 essential moves</h3>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">✋</div>
+      <h3>The Grip</h3>
+      <p class="summary">How you hold the club. Hands TOGETHER, pinkies and thumbs touching. Soft hands, not a death grip. Same grip for every club except the putter.</p>
+      <span class="cue">"Soft hands. Together."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🦵</div>
+      <h3>The Stance</h3>
+      <p class="summary">Feet shoulder-width apart. Knees slightly bent. Spine straight but TILTED forward from the hips. Ball in the middle of your feet.</p>
+      <span class="cue">"Soft knees. Tilt forward."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🟢</div>
+      <h3>Putting</h3>
+      <p class="summary">The putter ONLY. No wrists — your shoulders rock back and forth like a pendulum. Eyes over the ball. Smooth rhythm.</p>
+      <span class="cue">"Pendulum. No wrists."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">⛳</div>
+      <h3>Chipping</h3>
+      <p class="summary">Like putting but with a wedge. Small backswing. Brush the grass under the ball. Ball flies a little, rolls a lot.</p>
+      <span class="cue">"Brush. Pop. Roll."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏌️</div>
+      <h3>The Full Swing</h3>
+      <p class="summary">Back, up, and around — turn your shoulders. Then unwind through the ball. End with your belly facing the target. SMOOTH, not hard.</p>
+      <span class="cue">"Turn, unwind, finish."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h3>Aim &amp; Alignment</h3>
+      <p class="summary">Before EVERY shot: pick a target. Line up your clubface at the target. Then line up your feet PARALLEL (like train tracks).</p>
+      <span class="cue">"Clubface. Then feet."</span>
+    </div>
+  </div>
+
+  <h3 style="margin:2rem 0 0.8rem">The Pre-Shot Routine (do it EVERY shot)</h3>
+  <div class="card">
+    <p><strong>The 4 steps every golfer uses, every time:</strong></p>
+    <ul style="margin-left:1.2rem; margin-top:0.5rem">
+      <li><strong>1. PICK</strong> — pick your target. Where do you want the ball to go?</li>
+      <li><strong>2. PRACTICE</strong> — one practice swing, looking at the target.</li>
+      <li><strong>3. SET UP</strong> — grip, stance, aim. Take your time.</li>
+      <li><strong>4. SWING</strong> — one smooth swing. Trust it. Don't overthink.</li>
+    </ul>
+    <span class="cue">"Pick. Practice. Set up. Swing."</span>
+  </div>
+
+  <h3 style="margin:2rem 0 0.8rem">The Putting Grip (different from full swing)</h3>
+  <div class="card">
+    <p><strong>The "reverse overlap" putting grip:</strong></p>
+    <ul style="margin-left:1.2rem; margin-top:0.5rem">
+      <li>Both palms face each other, like clapping the club.</li>
+      <li>Bottom hand (right hand for righties) goes on first.</li>
+      <li>Top hand wraps over, and the top hand's INDEX FINGER rests over the bottom hand's fingers.</li>
+      <li>Hands move as ONE unit. Wrists stay still.</li>
+    </ul>
+    <span class="cue">"Hands together. Wrists quiet."</span>
+  </div>
+
+  <h3 style="margin:2rem 0 0.8rem">Reading a Green</h3>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">1️⃣</div>
+      <h3>Squat behind ball</h3>
+      <p class="summary">Crouch behind your ball, looking at the hole. See the BIG slope of the green.</p>
+      <span class="cue">"Behind the ball."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">2️⃣</div>
+      <h3>Look at the hole</h3>
+      <p class="summary">Walk to the hole. Crouch on the OTHER side. Look back at your ball. See the slope from there too.</p>
+      <span class="cue">"From both sides."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">3️⃣</div>
+      <h3>Pick a line</h3>
+      <p class="summary">Imagine a curved line from your ball to the hole. Pick a spot along that line to roll the ball OVER.</p>
+      <span class="cue">"Curve = the line."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">4️⃣</div>
+      <h3>Pick a speed</h3>
+      <p class="summary">Uphill = harder. Downhill = softer. Aim to roll the ball 12-18 INCHES PAST the hole if you miss.</p>
+      <span class="cue">"Past the hole, not short."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">5️⃣</div>
+      <h3>Trust it &amp; roll</h3>
+      <p class="summary">Set up over the ball. ONE last look at the target. Smooth pendulum. Trust your line.</p>
+      <span class="cue">"One look. Smooth roll."</span>
+    </div>
+  </div>
+</section>
+
+<!-- LESSON PLANS -->
+<section class="panel" id="program">
+  <div class="section-intro">
+    Practice plans for the whole year. <strong>Four lesson formats</strong> that rotate as your skills grow. Each one has the same shape — predictable structure, fresh content — so what's <em>new</em> can stay new without overwhelming.
+  </div>
+
+  <p style="color:var(--ink-soft); margin-bottom: 1.5rem; font-size:1.02rem">Built-in transitions (water break, tee marker check, "good shot!" between holes) are <strong>part of the practice</strong>, not interruptions. They reset attention between shots and holes.</p>
+
+  <h3 style="margin-bottom:0.8rem">The Warm-Up Menu</h3>
+  <p style="margin-bottom:0.8rem; color:var(--ink-soft)">Every session starts with 5-10 minutes of warm-up. Pick 3-4 moves from the menu below — different combos work for different days.</p>
+  <div class="warmup-grid">
+    <div class="warmup-item"><h4>🤸 Body Wake-Up</h4><p>Arm circles, hip swings, shoulder rolls, side bends. 30 seconds each. Golf is rotation — wake the body up first.</p><span class="cue">"Wake the body."</span></div>
+    <div class="warmup-item"><h4>✋ Grip Practice</h4><p>Hold the club. Check the grip. Both pinkies touching. Soft hands. Do it 5 times until it feels right.</p><span class="cue">"Hands together. Soft."</span></div>
+    <div class="warmup-item"><h4>🦵 Stance Check</h4><p>Feet shoulder-width. Soft knees. Tilt from the hips. Ball in the middle. Look in a mirror or have Daddy check.</p><span class="cue">"Tilt from hips."</span></div>
+    <div class="warmup-item"><h4>🟢 Putting Pendulum</h4><p>5 short putts from 3 feet. No wrists — just shoulders rocking. Build the rhythm.</p><span class="cue">"Shoulders, not hands."</span></div>
+    <div class="warmup-item"><h4>⛳ Chip Brush</h4><p>5 small chips. Practice BRUSHING the grass under the ball. Don't dig.</p><span class="cue">"Brush. Don't dig."</span></div>
+    <div class="warmup-item"><h4>🔄 Slow Swing</h4><p>5 slow full swings. NO ball. Feel the body turn. End with belly facing target.</p><span class="cue">"Smooth. Finish balanced."</span></div>
+    <div class="warmup-item"><h4>🎯 Aim Drill</h4><p>Lay a club on the ground pointing at a target. Set your feet PARALLEL to it. Like train tracks. Step in.</p><span class="cue">"Train tracks."</span></div>
+    <div class="warmup-item"><h4>🐢 Pre-Shot Routine</h4><p>Pick. Practice. Set up. Swing. 3 reps with no ball — just the routine.</p><span class="cue">"Same routine, every shot."</span></div>
+    <div class="warmup-item"><h4>👀 Target Spotting</h4><p>Pick a far target (a tree, a flag). Look at it. Then look at your ball. Look at target. Smooth swing.</p><span class="cue">"Eyes find target."</span></div>
+    <div class="warmup-item"><h4>🤫 Quiet Body</h4><p>Address the ball. Hold STILL for 3 seconds. Then swing. Builds the "stay still until impact" habit.</p><span class="cue">"Still body. Then swing."</span></div>
+  </div>
+
+  <h3 style="margin: 2.5rem 0 0.8rem">The 4 Lesson Formats</h3>
+  <div class="format-grid">
+
+    <div class="format-card">
+      <div class="format-header">
+        <span class="format-pill A">A</span>
+        <div>
+          <h4>FORMAT A · DISCOVERY</h4>
+          <p class="format-tag">Phase 1 (Weeks 1–6) + sprinkled throughout</p>
+        </div>
+      </div>
+      <p>Pure foundations. The basics: hold the club, stand, putt, chip. Backyard or putting green or carpet. No course pressure. Repeat the same moves until they feel natural.</p>
+      <ul class="format-blocks">
+        <li><span class="blk-time">5 min</span><div><span class="blk-name">Warm Up</span><span class="blk-desc">Pick 3 moves from the menu. Same ones each time at first. Routine is the goal.</span><span class="blk-cue">"Same warm-up = ready body."</span></div></li>
+        <li><span class="blk-time">15 min</span><div><span class="blk-name">Skill Block</span><span class="blk-desc">One specific skill — putting from 3 feet, or grip check, or chip brushing. Just that.</span><span class="blk-cue">"One thing. Many reps."</span></div></li>
+        <li><span class="blk-time">10 min</span><div><span class="blk-name">Game</span><span class="blk-desc">A small game using the new skill. Closest to the pin. Ladder putting. Keep it fun.</span><span class="blk-cue">"This is the best part."</span></div></li>
+        <li><span class="blk-time">5 min</span><div><span class="blk-name">Exit Ritual</span><span class="blk-desc">Clubs back in the bag. Water. High five. "Good practice."</span><span class="blk-cue">"Wrap it up clean."</span></div></li>
+      </ul>
+    </div>
+
+    <div class="format-card">
+      <div class="format-header">
+        <span class="format-pill B">B</span>
+        <div>
+          <h4>FORMAT B · DRIVING RANGE</h4>
+          <p class="format-tag">Starts Week 7 — alternates with A</p>
+        </div>
+      </div>
+      <p>The range. A bucket of balls. Hit shots with structure. Each ball has a target. Each ball has a purpose. NOT just smashing balls.</p>
+      <ul class="format-blocks">
+        <li><span class="blk-time">8 min</span><div><span class="blk-name">Warm Up</span><span class="blk-desc">Menu moves. Plus 5 short putts on the practice green if available.</span><span class="blk-cue">"Wake the body."</span></div></li>
+        <li><span class="blk-time">10 min</span><div><span class="blk-name">Short Game</span><span class="blk-desc">Chip and putt practice. Closer is more important than further.</span><span class="blk-cue">"Short game first."</span></div></li>
+        <li><span class="blk-time">20 min</span><div><span class="blk-name">Range Shots</span><span class="blk-desc">A bucket. Every shot: pick target, pick club, full pre-shot routine, swing. No racing.</span><span class="blk-cue">"Every ball, a routine."</span></div></li>
+        <li><span class="blk-time">5 min</span><div><span class="blk-name">Cool Down</span><span class="blk-desc">5 last putts. End on a make if you can. Pack up.</span><span class="blk-cue">"End on a good one."</span></div></li>
+      </ul>
+    </div>
+
+    <div class="format-card">
+      <div class="format-header">
+        <span class="format-pill C">C</span>
+        <div>
+          <h4>FORMAT C · ON COURSE</h4>
+          <p class="format-tag">Starts Week 27 — alternates with A and B</p>
+        </div>
+      </div>
+      <p>Real holes. Real flags. Real score. Walk if you can — it teaches the game. Daddy is the playing partner and coach (sparingly). Etiquette is as important as the score.</p>
+      <ul class="format-blocks">
+        <li><span class="blk-time">10 min</span><div><span class="blk-name">Range Warm-Up</span><span class="blk-desc">10 putts. 10 chips. 5 full swings. Quick. Just to get loose.</span><span class="blk-cue">"Loose, not tired."</span></div></li>
+        <li><span class="blk-time">5 min</span><div><span class="blk-name">First Tee Routine</span><span class="blk-desc">Quiet. Pick a target. Pre-shot routine. Smooth swing. Go.</span><span class="blk-cue">"Same routine as range."</span></div></li>
+        <li><span class="blk-time">60-90 min</span><div><span class="blk-name">Play the Holes</span><span class="blk-desc">3, 6, or 9 holes depending on stamina. Honest count. Repair greens. Rake bunkers.</span><span class="blk-cue">"Walk briskly between shots."</span></div></li>
+        <li><span class="blk-time">5 min</span><div><span class="blk-name">Exit Ritual</span><span class="blk-desc">Hat off. Shake hands. "Good game." Sign the scorecard if you kept one.</span><span class="blk-cue">"Hand shake. 'Good game.'"</span></div></li>
+      </ul>
+    </div>
+
+    <div class="format-card">
+      <div class="format-header">
+        <span class="format-pill D">D</span>
+        <div>
+          <h4>FORMAT D · GOLFER</h4>
+          <p class="format-tag">Starts Week 40 — the highest format</p>
+        </div>
+      </div>
+      <p>Ownership and reflection. You choose the focus. You pick the round goal. You lead the group's pace. And at the end, you name one win and one challenge — the metacognitive frame that real golfers build.</p>
+      <ul class="format-blocks">
+        <li><span class="blk-time">5 min</span><div><span class="blk-name">My Goal</span><span class="blk-desc">Pick ONE focus for today. "Smooth tempo." Or "find the fairway." Write it down.</span><span class="blk-cue">"One focus. One goal."</span></div></li>
+        <li><span class="blk-time">10 min</span><div><span class="blk-name">My Warm-Up</span><span class="blk-desc">YOU pick 3 menu moves. YOU pick the order. Daddy just watches.</span><span class="blk-cue">"My routine."</span></div></li>
+        <li><span class="blk-time">12 min</span><div><span class="blk-name">Tactical Challenge</span><span class="blk-desc">A round with one specific rule — "no driver today" or "putt with eyes closed on lag putts." Stretches the game.</span><span class="blk-cue">"One rule. One round."</span></div></li>
+        <li><span class="blk-time">5 min</span><div><span class="blk-name">Reflection</span><span class="blk-desc">After the round: 1 thing you did well, 1 thing to work on. Write or say out loud.</span><span class="blk-cue">"What I learned today."</span></div></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <h3 style="margin: 2.5rem 0 0.8rem">The 52-Week Plan</h3>
+  <p style="color:var(--ink-soft); margin-bottom: 1rem">A full year of practice. Phase 1 (weeks 1-6) is pure Format A — putting foundations. Phase 2 (7-26) adds Format B — the chipping and full swing build at the range. Phase 3 (27-39) adds Format C — real golf on the course. Phase 4 (40-52) adds Format D — ownership and the golfer mindset.</p>
+
+  <h4 style="margin-bottom:0.6rem">Phase 1 · Putting Foundations</h4>
+  <div class="week-grid">
+    <div class="week-card fmt-A"><span class="wk-num">Week 1<span class="fmt-pill A">A</span></span><h4>Discover the Clubs</h4><p>Lay out the 4 main clubs (putter, wedge, iron, driver). Name each. Hold each. Notice how different they feel.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 2<span class="fmt-pill A">A</span></span><h4>The Grip</h4><p>How to hold the club. Both pinkies together. Soft hands. Practice until it feels natural.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 3<span class="fmt-pill A">A</span></span><h4>The Stance</h4><p>Feet shoulder-width. Soft knees. Tilt from the hips. Ball in the middle of your stance.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 4<span class="fmt-pill A">A</span></span><h4>The Putter</h4><p>The shortest club. Shoulders rock like a pendulum. NO wrists. Putt across the carpet to a cup.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 5<span class="fmt-pill A">A</span></span><h4>Short Putts</h4><p>3-foot putts. Goal: make 10 in a row. Build confidence before going longer.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 6<span class="fmt-pill A">A</span></span><h4>Longer Putts</h4><p>6-foot putts. Then 10-foot. Distance control is harder — focus on smooth tempo.</p></div>
+  </div>
+
+  <h4 style="margin: 2rem 0 0.6rem">Phase 2 · Adding Chipping &amp; Swing</h4>
+  <div class="week-grid">
+    <div class="week-card fmt-A"><span class="wk-num">Week 7<span class="fmt-pill A">A</span></span><h4>The Wedge</h4><p>New club: the wedge (for chipping). Heavy bottom. Designed to slide UNDER the ball.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 8<span class="fmt-pill B">B</span></span><h4>Chip Brush Drill</h4><p>Brush the grass under the ball. No big swings. Just brush.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 9<span class="fmt-pill A">A</span></span><h4>Short Chip</h4><p>A 5-foot chip onto the green. Ball flies a little, rolls more.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 10<span class="fmt-pill B">B</span></span><h4>Chip to a Target</h4><p>Set up a hula hoop or chalk circle. Chip into it. 10 attempts.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 11<span class="fmt-pill A">A</span></span><h4>Longer Chip</h4><p>10–15 feet now. Slightly bigger backswing. Same brushing motion.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 12<span class="fmt-pill B">B</span></span><h4>Chip &amp; Putt</h4><p>Chip the ball onto a "green." Then putt it in. Real golf in miniature.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 13<span class="fmt-pill A">A</span></span><h4>The 7-Iron</h4><p>New club: the 7-iron. Longer than the wedge. The most useful "fairway" club for kids.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 14<span class="fmt-pill B">B</span></span><h4>Small Swing With Iron</h4><p>HALF backswing only. Slow. Smooth. Brush the grass. Ball goes 20 feet.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 15<span class="fmt-pill A">A</span></span><h4>The Pre-Shot Routine</h4><p>Pick. Practice. Set up. Swing. Same 4 steps. Every shot.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 16<span class="fmt-pill B">B</span></span><h4>Routine Practice</h4><p>10 chips with the pre-shot routine. Same order, same tempo, every time.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 17<span class="fmt-pill A">A</span></span><h4>The Full Swing</h4><p>Bigger backswing now. Turn the shoulders. Unwind through. End balanced.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 18<span class="fmt-pill B">B</span></span><h4>Range Day</h4><p>First trip to the driving range. 30 balls. Slow. Focus on contact, not distance.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 19<span class="fmt-pill A">A</span></span><h4>Aim &amp; Alignment</h4><p>Train tracks. Clubface at target. Feet parallel. Practice with two clubs on the ground.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 20<span class="fmt-pill B">B</span></span><h4>Aim Drill</h4><p>Use an alignment stick. Set up. Hit. Check: did the ball go where you aimed?</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 21<span class="fmt-pill A">A</span></span><h4>Reading the Green</h4><p>How to see slope. Crouch behind the ball. Crouch behind the hole. Pick a line.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 22<span class="fmt-pill B">B</span></span><h4>Slope Putting</h4><p>Put a ball on a slope. Read it. Pick a line. Putt. Did it curve as you predicted?</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 23<span class="fmt-pill A">A</span></span><h4>The Driver</h4><p>The longest club. Hardest to hit. Use only when ready. Tee the ball HIGH.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 24<span class="fmt-pill B">B</span></span><h4>Driver Day</h4><p>Range. 10 driver shots. Easy swing. Distance comes from CONTACT, not effort.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 25<span class="fmt-pill A">A</span></span><h4>Etiquette Review</h4><p>The 10 rules. Quiet. Fore. Honors. Repair. Rake. Don't walk on lines. Honest count.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 26<span class="fmt-pill B">B</span></span><h4>Practice Round (3 holes)</h4><p>End-of-phase celebration. First REAL holes on a course. Pick any 3. Take your time.</p></div>
+  </div>
+
+  <h4 style="margin: 2rem 0 0.6rem">Phase 3 · Adding Course Play</h4>
+  <div class="week-grid">
+    <div class="week-card fmt-C"><span class="wk-num">Week 27<span class="fmt-pill C">C</span></span><h4>First 9-Hole Round</h4><p>Format C debuts. 9 holes with Daddy. Goal: enjoy it. Don't worry about score.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 28<span class="fmt-pill A">A</span></span><h4>Picking the Right Club</h4><p>New skill: how far does each club go? Roughly. Use the SHORTER club if unsure.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 29<span class="fmt-pill B">B</span></span><h4>Club Selection Drill</h4><p>Range. Daddy calls a distance. You pick the club. Hit. Did you choose right?</p></div>
+    <div class="week-card fmt-C"><span class="wk-num">Week 30<span class="fmt-pill C">C</span></span><h4>Hole-by-Hole Strategy</h4><p>Walk a 9-hole round. Before each hole: "what's my plan?" Talk it out with Daddy.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 31<span class="fmt-pill A">A</span></span><h4>Bunker Shots</h4><p>New skill: hitting OUT of a sand trap. Open the clubface. Swing through the sand BEHIND the ball.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 32<span class="fmt-pill B">B</span></span><h4>Practice Bunker</h4><p>10 sand shots at the practice bunker. Goal: get out, every time.</p></div>
+    <div class="week-card fmt-C"><span class="wk-num">Week 33<span class="fmt-pill C">C</span></span><h4>Full Round (9 holes)</h4><p>9-hole round with focus on the rules. Mark a scorecard.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 34<span class="fmt-pill A">A</span></span><h4>Reading the Wind</h4><p>New skill: wind changes everything. INTO the wind = pick more club. WITH wind = less club.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 35<span class="fmt-pill B">B</span></span><h4>Wind Drill</h4><p>Range on a windy day. Hit shots in different directions. Notice the wind effect.</p></div>
+    <div class="week-card fmt-C"><span class="wk-num">Week 36<span class="fmt-pill C">C</span></span><h4>9-Hole with Scoring</h4><p>Real round. Real score. No mulligans (do-overs). Count every stroke honestly.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 37<span class="fmt-pill A">A</span></span><h4>Trouble Shots</h4><p>Ball in the rough. Ball behind a tree. New skill: take your medicine — hit a safe shot, not a hero shot.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 38<span class="fmt-pill B">B</span></span><h4>Trouble Practice</h4><p>Drop a ball in tough spots. Practice getting out. Goal: back to the fairway.</p></div>
+    <div class="week-card fmt-C"><span class="wk-num">Week 39<span class="fmt-pill C">C</span></span><h4>9 Holes with a Goal</h4><p>End-of-phase. Set a goal before the round (e.g. "fewer than 60 total"). Try to beat it.</p></div>
+  </div>
+
+  <h4 style="margin: 2rem 0 0.6rem">Phase 4 · Becoming a Golfer</h4>
+  <div class="week-grid">
+    <div class="week-card fmt-D"><span class="wk-num">Week 40<span class="fmt-pill D">D</span></span><h4>I Choose the Round</h4><p>Format D debuts. Nicolas picks the goal (par, score, focus). Daddy listens.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 41<span class="fmt-pill A">A</span></span><h4>Course Management</h4><p>New skill: plan TWO shots ahead, not one. Where do you want to be for your next shot?</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 42<span class="fmt-pill B">B</span></span><h4>Plan the Hole</h4><p>Before each hole, talk through TWO shots. Then hit them.</p></div>
+    <div class="week-card fmt-C"><span class="wk-num">Week 43<span class="fmt-pill C">C</span></span><h4>9 Holes — Big Round</h4><p>A "real" round. Take your time. Apply everything. No bail-outs.</p></div>
+    <div class="week-card fmt-D"><span class="wk-num">Week 44<span class="fmt-pill D">D</span></span><h4>One Focus, One Round</h4><p>Pick ONE thing to focus on for the whole 9 holes. "Smooth tempo." Or "find the fairway." Just that one thing.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 45<span class="fmt-pill A">A</span></span><h4>Mental Game</h4><p>New idea: bad shots happen. Move on FAST. The next shot is the only one that matters.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 46<span class="fmt-pill B">B</span></span><h4>Reset Drill</h4><p>Daddy intentionally makes you hit a bad shot. Then practice the RESET — deep breath, walk forward, next shot is fresh.</p></div>
+    <div class="week-card fmt-C"><span class="wk-num">Week 47<span class="fmt-pill C">C</span></span><h4>9 Holes with a Friend</h4><p>Invite a cousin or buddy. Real round. Real etiquette. Real fun.</p></div>
+    <div class="week-card fmt-D"><span class="wk-num">Week 48<span class="fmt-pill D">D</span></span><h4>I Lead the Group</h4><p>Nicolas takes charge: calls honors, watches pace, reminds everyone to repair the green.</p></div>
+    <div class="week-card fmt-A"><span class="wk-num">Week 49<span class="fmt-pill A">A</span></span><h4>Tracking Your Game</h4><p>New skill: keep a simple stats card. Fairways hit. Greens hit. Putts per hole.</p></div>
+    <div class="week-card fmt-B"><span class="wk-num">Week 50<span class="fmt-pill B">B</span></span><h4>Stats Round</h4><p>9 holes. Track everything. After: what's your strength? What needs work?</p></div>
+    <div class="week-card fmt-C"><span class="wk-num">Week 51<span class="fmt-pill C">C</span></span><h4>First 18-Hole Round (when ready)</h4><p>The full deal. 18 holes. Pace yourself. Eat a snack. Stay hydrated.</p></div>
+    <div class="week-card fmt-D"><span class="wk-num">Week 52<span class="fmt-pill D">D</span></span><h4>Golf Birthday</h4><p>Year-end. Reflect: 3 favorite rounds. Set a goal for Year 2. Celebrate.</p></div>
+  </div>
+</section>
+
+<!-- GAMES -->
+<section class="panel" id="games">
+  <div class="section-intro">
+    Drills get the body strong. Games get the spirit strong. Mix them in every practice. Some work great in the backyard. Some need a course or driving range. Some are perfect when Alexander joins.
+  </div>
+
+  <div class="card-grid">
+    <div class="card" style="border-color: var(--alert-red, #c73e3a); background: linear-gradient(135deg, #fef7e6, var(--cream-deep));">
+      <div class="card-icon" style="background: linear-gradient(135deg, #c73e3a, #9c2a26)">⛳</div>
+      <h3>Closest to the Pin <span style="font-size:0.75rem; background:#9c2a26; color:var(--cream); padding:0.15rem 0.5rem; border-radius:999px; font-weight:700; vertical-align:middle; margin-left:0.4rem">CLASSIC</span></h3>
+      <p class="summary">The classic golf challenge. Pick a target (a flag, a cone, a chalk circle). Each player gets ONE chip. Whoever lands CLOSEST to the target wins. Mark each ball with a tee.</p>
+      <p style="font-size:0.88rem; color:var(--ink-soft); margin-top:0.6rem"><strong>Why it's perfect for the brothers:</strong> built-in turn-taking (one shot at a time), instant feedback, no winner-vs-loser drama (you're racing toward a target), and Alexander and Nicolas can use different clubs at different distances to make it fair.</p>
+      <span class="cue">"One chip. Closest wins."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🥅</div>
+      <h3>Putting Contest</h3>
+      <p class="summary">10 putts from the same spot. Whoever makes MORE wins. Vary the distances. Loser racks up the balls.</p>
+      <span class="cue">"Steady rhythm."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🪜</div>
+      <h3>Ladder Putting</h3>
+      <p class="summary">Set up 5 balls at 2 feet, 4 feet, 6 feet, 8 feet, 10 feet. Make them in order. Miss = start over.</p>
+      <span class="cue">"Build the ladder."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h3>Chip the Hoop</h3>
+      <p class="summary">Lay a hula hoop on the lawn. 10 chips. How many land IN the hoop? Move the hoop further each round.</p>
+      <span class="cue">"Land it in."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🚧</div>
+      <h3>Tin Can Chip</h3>
+      <p class="summary">A big plastic bucket on its side, 20 feet away. Chip balls into it. CHING! when you make it.</p>
+      <span class="cue">"Aim for the can."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎈</div>
+      <h3>Pop the Balloon</h3>
+      <p class="summary">Tie balloons to stakes in the yard at different distances. Chip until you POP one. Move on.</p>
+      <span class="cue">"Pop the target."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔢</div>
+      <h3>21</h3>
+      <p class="summary">Putting game. Make a 3-footer = 1 point. Make a 6-footer = 2 points. Make a 10-footer = 3 points. First to 21 wins.</p>
+      <span class="cue">"Points add up."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏆</div>
+      <h3>Up &amp; Down</h3>
+      <p class="summary">Chip onto the green. Then putt out. The combo = 2 strokes. Did you "get up and down"? Aim for it.</p>
+      <span class="cue">"Chip. Putt. Done."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🐢</div>
+      <h3>Slow Swing Contest</h3>
+      <p class="summary">Who can swing the SMOOTHEST and the SLOWEST and still hit the ball? Tempo over power.</p>
+      <span class="cue">"Smooth. Slow. Solid."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎲</div>
+      <h3>Club Roulette</h3>
+      <p class="summary">Daddy randomly picks a club for you. You have to figure out how to hit the shot with THAT club. Builds creativity.</p>
+      <span class="cue">"Figure it out."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">📏</div>
+      <h3>Distance Discovery</h3>
+      <p class="summary">At the range. Hit 5 shots with each club. Pace off the average distance. Write it down. Build your "yardages."</p>
+      <span class="cue">"Know your numbers."</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🚲</div>
+      <h3>Cart Path Only</h3>
+      <p class="summary">Walking 9 holes? Try carrying or pulling. Walking golf is the BEST way to learn the game. Real feel for distance.</p>
+      <span class="cue">"Walk. Don't ride."</span>
+    </div>
+  </div>
+
+  <h3 style="margin: 2rem 0 0.7rem">Watch fun golf games in action</h3>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🎬</div>
+      <h3>Backyard Golf Games for Kids</h3>
+      <p class="summary">Simple games to build skills at home.</p>
+      <a class="video-link" href="https://www.youtube.com/results?search_query=backyard+golf+games+kids" target="_blank" rel="noopener">▶ Watch</a>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎬</div>
+      <h3>Junior Golf Drills</h3>
+      <p class="summary">Drills that help kids build a real swing.</p>
+      <a class="video-link" href="https://www.youtube.com/results?search_query=junior+golf+drills+kids" target="_blank" rel="noopener">▶ Watch</a>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1.5rem; background:var(--cream-deep)">
+    <h3>Make any drill more fun</h3>
+    <ul style="margin-left:1.2rem; margin-top:0.5rem">
+      <li><strong>Add a story.</strong> "You're tied for the lead at the Masters. This shot is for the green jacket."</li>
+      <li><strong>Add silly cues.</strong> "Swing like you're stirring honey."</li>
+      <li><strong>Add a target.</strong> A bucket, a hula hoop, a tin can. Aim is more fun than just hitting balls.</li>
+      <li><strong>Add a count.</strong> "How many chips in a row land in the circle?" Counting builds focus.</li>
+      <li><strong>Add a victory move.</strong> Fist pump after a great putt. Twirl the club. Make it dramatic.</li>
+      <li><strong>Add music.</strong> Bring a speaker to the backyard. Swing to a beat.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- SOCIAL STORY -->
+<section class="panel" id="story">
+  <div class="section-intro">
+    A picture story about a day at BYC Junior Golfing. Read it with Mom or Dad before practice. Read it again whenever you want. The pictures show what to expect. The words show what to do.
+  </div>
+
+  <div class="story-book">
+    <div style="text-align:center; margin-bottom:1.5rem">
+      <h2 style="color:var(--navy-deep)">Nicolas Plays Golf</h2>
+      <p style="font-style:italic; color:var(--ink-soft)">A story about my day at BYC</p>
+    </div>
+
+    <div class="story-page">
+      <div class="img">⛵</div>
+      <div class="text"><span class="story-num">PAGE 1</span>My name is Nicolas. I am a golfer.</div>
+    </div>
+
+    <div class="story-page">
+      <div class="img">📅</div>
+      <div class="text"><span class="story-num">PAGE 2</span>Today is my golf day. I will play with Daddy and my brother Alexander.</div>
+    </div>
+
+    <div class="story-page">
+      <div class="img">🎒</div>
+      <div class="text"><span class="story-num">PAGE 3</span>I pack my bag. Glove. Water. Hat. Sunscreen. Towel. I am ready.</div>
+    </div>
+
+    <div class="story-page">
+      <div class="img">🚗</div>
+      <div class="text"><span class="story-num">PAGE 4</span>We drive to BYC. I look at the course. I look at the trees — to see which way the wind is blowing.</div>
+    </div>
+
+    <div class="story-page">
+      <div class="img">🦺</div>
+      <div class="text"><span class="story-num">PAGE 5</span>First thing — gloves on. Bag on shoulder. Coach checks I have everything.</div>
+    </div>
+
+    <div class="story-page">
+      <div class="img">👋</div>
+      <div class="text"><span class="story-num">PAGE 6</span>I see Coach. Coach says "Hi Nicolas!" I can say hi back, or wave, or smile.</div>
+    </div>
+
+    <div class="story-page">
+      <div class="img">🛠️</div>
+      <div class="text"><span class="story-num">PAGE 7</span>We get the golf bag ready on the dock. glove on. Shot clipped. Pedals checked. I know every part.</div>
+    </div>
+
+    <div class="story-page">
+      <div class="img">🚶</div>
+      <div class="text"><span class="story-num">PAGE 8</span>I push the golf bag on the dolly. Walking feet on the dock. Slow and steady.</div>
+    </div>
+
+    <div class="story-page">
+      <div class="img">🌊</div>
+      <div class="text"><span class="story-num">PAGE 9</span>The boat goes in the course. I climb in. The boat moves under me — that is normal. The water is my home now.</div>
+    </div>
+
+    <div class="story-page">
+      <div class="img">🌬️</div>
+      <div class="text"><span class="story-num">PAGE 10</span>I swing the club. The ball flies. I am playing golf.</div>
+    </div>
+
+    <div class="story-page">
+      <div class="img">😮‍💨</div>
+      <div class="text"><span class="story-num">PAGE 11</span>If I feel scared — or if water splashes me — I take a deep breath. Coach is right there. I am safe.</div>
+    </div>
+
+    <div class="story-page">
+      <div class="img">💦</div>
+      <div class="text"><span class="story-num">PAGE 12</span>Sometimes the golf bag tips over. That is called tip over. It happens to every golfer. I stay with the golf bag. I stand on the centerboard. I climb back in.</div>
+    </div>
+
+    <div class="story-page">
+      <div class="img">🏁</div>
+      <div class="text"><span class="story-num">PAGE 13</span>I roll the ball into the last hole. I shake hands. I did it!</div>
+    </div>
+
+    <div class="story-page">
+      <div class="img">🤝</div>
+      <div class="text"><span class="story-num">PAGE 14</span>We rinse the golf bag. Strap it back on the rack. Then high-five Daddy. "Thank you, Daddy!"</div>
+    </div>
+
+    <div class="story-page">
+      <div class="img">🌟</div>
+      <div class="text"><span class="story-num">PAGE 15</span>Golf makes me strong. Golf makes me patient. Golf makes me happy. I am a golfer.</div>
+    </div>
+  </div>
+
+  <div class="pull-quote">
+    Capsizing is part of golfing. Learning is part of golfing. Showing up is part of golfing. You belong on the course.
+  </div>
+</section>
+
+<!-- KAYAKING SONGS -->
+<section class="panel" id="songs">
+  <div class="section-intro">
+    Music is part of golfing. Songs help you preview what's coming, regulate your body between segments, and celebrate the joy of a good day on the course. Each song is made just for you on Suno. Tap to play. Add new ones any time.
+  </div>
+<div class="user-songs-section">
+  <button class="add-song-btn" id="add-song-btn" type="button">+ Add a Suno Song</button>
+  <div id="user-songs-list"></div>
+</div>
+
+
+  <h2 style="margin-bottom:0.4rem">Nicolas's Golf Playlist</h2>
+  <p style="color:var(--ink-soft); margin-bottom:1.5rem">Tap any song to listen. Use them before a round, between segments, or after a great trip.</p>
+
+  <div class="card-grid">
+    <div class="card song-add">
+      <div class="card-icon" style="background:linear-gradient(135deg, var(--cream), var(--cream-deep)) !important; color:var(--navy); border:2px dashed var(--harbor);">🎵</div>
+      <h3>Make Your First Golf Song</h3>
+      <p class="summary" style="text-align:left">Same workflow as the tennis songs. Some ideas:</p>
+      <ol>
+        <li>"Grip and Go" — a rhythm song for the pre-shot routine.</li>
+        <li>"Soft Hands, Soft Swing" — a song about tempo over power.</li>
+        <li>"In the Hole" — a celebration song for sinking putts.</li>
+        <li>"Backyard Birdie" — a song for at-home practice days.</li>
+        <li>"Daddy on the Tee" — a song for rounds together.</li>
+      </ol>
+    </div>
+    <div class="card song-add">
+      <div class="card-icon" style="background:linear-gradient(135deg, var(--cream), var(--cream-deep)) !important; color:var(--navy); border:2px dashed var(--harbor);">➕</div>
+      <h3>How to Add a New Song</h3>
+      <p class="summary" style="text-align:left">Tap the green <strong>+ Add a Suno Song</strong> button at the top of this panel. The app will save your songs right on this iPad — they'll be there next time too.</p>
+      <ol>
+        <li>Make the song on Suno together with Nicolas/Alexander.</li>
+        <li>Copy the share link from Suno (the URL of the song page).</li>
+        <li>Tap <strong>+ Add a Suno Song</strong> above.</li>
+        <li>Enter the title, paste the URL, tap Save.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h3 style="margin: 2rem 0 0.7rem">When to use the songs</h3>
+  <div class="song-uses">
+    <div class="song-use">
+      <h4>🎒 On the way to practice</h4>
+      <p>In the car. Builds anticipation. Lets the body get into "golfing mode" before arrival.</p>
+    </div>
+    <div class="song-use">
+      <h4>🤸 Warm-up block</h4>
+      <p>Play a song while doing menu moves on the dock. The song's length signals when warm-up is done.</p>
+    </div>
+    <div class="song-use">
+      <h4>💧 Between blocks</h4>
+      <p>A 30-second song clip resets attention before moving to the next part of the trip.</p>
+    </div>
+    <div class="song-use">
+      <h4>🏆 Champion moment</h4>
+      <p>End every Format C trip with a song. Pair the song with the win-feeling.</p>
+    </div>
+    <div class="song-use">
+      <h4>😮‍💨 Regulation</h4>
+      <p>If a moment feels hard (cold water, tip over fear, wind too strong), pause and listen to a familiar song.</p>
+    </div>
+    <div class="song-use">
+      <h4>🚗 Drive home</h4>
+      <p>Replay the song on the way home. Pairs the music with the memory of a good round.</p>
+    </div>
+  </div>
+
+  <div class="pull-quote">
+    A song is a feeling you can put in your pocket. Swing plus music plus rhythm plus joy — that is your sport.
+  </div>
+
+  <p style="text-align:center; margin-top:2rem; font-family:'Fraunces',serif; font-style:italic; color:var(--ink-soft)">— Built with love for Nicolas —</p>
+</section>
+
+
+<div class="song-modal-overlay" id="song-modal" hidden>
+  <div class="song-modal-box" role="dialog" aria-modal="true" aria-labelledby="song-modal-title">
+    <h3 id="song-modal-title">Add a Suno Song</h3>
+    <label class="song-modal-label" for="song-title-input">Song Title</label>
+    <input type="text" id="song-title-input" placeholder="e.g. Hype Song" autocomplete="off">
+    <label class="song-modal-label" for="song-url-input">Suno URL</label>
+    <input type="url" id="song-url-input" placeholder="https://suno.com/s/...">
+    <p class="song-modal-hint">Paste the share link from Suno (the URL of the song page).</p>
+    <div class="song-modal-actions">
+      <button class="song-modal-btn cancel" id="song-modal-cancel" type="button">Cancel</button>
+      <button class="song-modal-btn save"   id="song-modal-save"   type="button">Save</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- PARENTS / RESOURCES (adult version only) -->
+<section class="panel" id="parents">
+  <div class="section-intro">
+    Courses, programs, equipment, and a Sarah-PT integration plan — for the grownups supporting Nicolas's golf journey.
+  </div>
+
+  <div class="resource-block">
+    <h3>⛳ Local courses near Marion, MA</h3>
+    <p>The SouthCoast has lots of golf options for kids. A few worth knowing:</p>
+    <ul>
+      <li><strong>Bay Pointe Country Club (Buzzards Bay)</strong> — public-access, family-friendly, junior programs.</li>
+      <li><strong>The Bay Club at Mattapoisett</strong> — beautiful course, private but worth knowing about for junior programs and tournaments.</li>
+      <li><strong>The Kittansett Club (Marion)</strong> — historic, exclusive, and right in town. Limited access but a stunning seaside course.</li>
+      <li><strong>Reservation Golf Club (Mattapoisett)</strong> — public, walker-friendly, gentle for beginners.</li>
+      <li><strong>Acushnet River Valley Golf Course</strong> — public, scenic, good practice facilities.</li>
+      <li><strong>Whaling City Golf Course (New Bedford)</strong> — public municipal, great for first rounds, junior rates.</li>
+    </ul>
+    <p style="margin-top:0.7rem"><strong>Best starting points for kids:</strong> any course with a <em>practice green</em> and <em>chipping area</em> where you can drop a basket of balls and just putt and chip without paying for a full round.</p>
+  </div>
+
+  <div class="resource-block">
+    <h3>🏌️ Junior golf programs &amp; resources</h3>
+    <ul>
+      <li><strong>The First Tee — Southeastern Massachusetts</strong> — <a href="https://firsttee.org/" target="_blank" rel="noopener">firsttee.org</a>. The national gold standard for youth golf. Teaches the game AND the values. Affordable. Look for the local chapter.</li>
+      <li><strong>US Kids Golf</strong> — <a href="https://www.uskidsgolf.com/" target="_blank" rel="noopener">uskidsgolf.com</a>. THE brand for junior clubs sized by height. They also run a junior tour.</li>
+      <li><strong>PGA Junior League</strong> — <a href="https://pgajrleague.com/" target="_blank" rel="noopener">pgajrleague.com</a>. Team-based, scramble-format youth golf. Great social experience.</li>
+      <li><strong>LPGA*USGA Girls Golf</strong> — if applicable. Free or low-cost girls-only programs.</li>
+      <li><strong>PGA Coach</strong> — find a local PGA Professional who teaches juniors. The first 5 lessons are gold.</li>
+    </ul>
+  </div>
+
+  <div class="resource-block">
+    <h3>🏃 Integrating Sarah PT with golf</h3>
+    <p>Golf pairs surprisingly well with PT work. The swing requires rotation, balance, and core stability — all Sarah territory.</p>
+    <ul>
+      <li><strong>Rotational core strength.</strong> The golf swing IS a coiled rotation. Sarah's rotational core work translates directly. Ask her to add resisted trunk rotations.</li>
+      <li><strong>Hip mobility.</strong> The backswing and follow-through need hip rotation. Tight hips = a flat, weak swing. Sarah's hip mobility work pays off.</li>
+      <li><strong>Single-leg balance.</strong> The finish position of a full swing is essentially a single-leg balance on the lead leg. Sarah's single-leg work helps.</li>
+      <li><strong>Shoulder mobility.</strong> A full backswing needs supple shoulders. Sarah can prescribe overhead mobility work.</li>
+      <li><strong>Breathing during the swing.</strong> Golf is a focus sport. Pre-shot breath work (one slow exhale) lowers tension. Pair with Sarah's breathing exercises. Given the respiratory profile being investigated, golf is gentle — long walks between short bursts of effort. Very respiratory-friendly.</li>
+      <li><strong>Walking endurance.</strong> A 9-hole walk is 2+ miles of variable-terrain walking. Builds endurance gently.</li>
+    </ul>
+    <p style="margin-top:0.7rem"><strong>Bonus framing:</strong> Sarah's PT work makes Nicolas's swing more powerful, his putts more steady, and lets him walk 18 holes without fatigue.</p>
+  </div>
+
+  <div class="resource-block">
+    <h3>🏌️ Equipment for junior golf</h3>
+    <ul>
+      <li><strong>Junior clubs sized by height.</strong> US Kids Golf is the standard. Get fitted at a shop or via their height chart. Wrong-size clubs make the swing impossible to learn. Replace every 1-2 years as the kid grows.</li>
+      <li><strong>Starter set (5-7 clubs).</strong> Driver, 7-iron, wedge, putter is the bare minimum. Adding a hybrid and a 9-iron makes a good 5-club bag for beginners.</li>
+      <li><strong>Junior bag.</strong> Light. Stand bag (legs that fold out) is best for walking.</li>
+      <li><strong>Glove.</strong> One glove for the LEAD hand (left hand for righties). Improves grip. Replace yearly.</li>
+      <li><strong>Tees.</strong> A pocket-full of wooden tees. Long tees for the driver, short tees for irons.</li>
+      <li><strong>Balls.</strong> Cheap practice balls at first. ProV1s later (much later).</li>
+      <li><strong>Hat / visor.</strong> Sun protection. Plus it looks like real golf.</li>
+      <li><strong>Cleats / spikes.</strong> Soft spikes only (not metal). Or grippy sneakers — many courses allow them.</li>
+      <li><strong>Ball mark repair tool.</strong> A tiny two-pronged tool. Carry in your pocket. Repairs the green after a shot lands.</li>
+      <li><strong>Divot tool / repair sand.</strong> Replace divots. Fill with sand if available.</li>
+    </ul>
+  </div>
+
+  <div class="resource-block">
+    <h3>📺 YouTube channels worth bookmarking</h3>
+    <ul>
+      <li><strong>US Kids Golf</strong> — official channel with junior-specific content</li>
+      <li><strong>Me and My Golf</strong> — Andy &amp; Piers — well-paced, kid-friendly tutorials</li>
+      <li><strong>Rick Shiels Golf</strong> — popular, accessible, good for watching with a kid</li>
+      <li><strong>The First Tee</strong> — values-focused content, life skills + golf</li>
+    </ul>
+  </div>
+
+  <div class="resource-block">
+    <h3>📚 Books for parents</h3>
+    <ul>
+      <li><strong><em>Coaching Kids Golf</em></strong> — practical for parent-coaches</li>
+      <li><strong><em>Harvey Penick's Little Red Book</em></strong> — the classic. Wisdom for any golfer.</li>
+      <li><strong><em>Golf is Not a Game of Perfect</em></strong> by Bob Rotella — the mental game (read for yourself, model for the kid)</li>
+      <li><strong><em>The First Tee Life Skills curriculum</em></strong> — values + golf, free with First Tee enrollment</li>
+    </ul>
+  </div>
+
+  <div class="resource-block">
+    <h3>🧠 Nicolas-Specific Suggestions</h3>
+    <ul>
+      <li><strong>Pre-round routine.</strong> Same words, same order. "Bag. Glove. Water. Hat. Sunscreen. Tees. Go." Predictability lowers transition anxiety.</li>
+      <li><strong>Golf is GREAT for the respiratory profile.</strong> Long walks between short efforts. Self-paced. You can stop and rest anytime. One of the gentler sports.</li>
+      <li><strong>Walking is the secret.</strong> Don't rent a cart. Walking the course builds endurance, gives breaks between shots, and is genuinely fun.</li>
+      <li><strong>Start with 3 holes, not 18.</strong> Short sessions on the course build positive associations. Long ones build fatigue.</li>
+      <li><strong>Snacks on the course.</strong> A familiar safe snack between holes. Apple, crackers, water. Critical for energy and emotional regulation.</li>
+      <li><strong>Visual schedule on the bag.</strong> Same as the other sports: velcro pictures.</li>
+      <li><strong>Pre-load videos.</strong> Watch a junior golf drill the night before each new skill.</li>
+      <li><strong>End every session on a good shot.</strong> One that felt great, or one that just barely went in. Memory anchors.</li>
+      <li><strong>No score pressure early.</strong> Don't keep score for the first many rounds. Just play. Score comes later.</li>
+      <li><strong>Time it with the weather.</strong> Hot days are hard. Early morning or evening rounds are gentler.</li>
+      <li><strong>Practice greens are FREE.</strong> Most courses let kids putt and chip on the practice green for free or very cheap. Best ROI in golf.</li>
+    </ul>
+  </div>
+
+  <div class="pull-quote">
+    Golf is not just a sport. It's a quiet practice in self-regulation, focus, patience, etiquette, and joyful effort. A skill that opens up beautiful courses around the world — and is something you can do with your family, your friends, your future kids. Every round is a developmental gift.
+  </div>
+
+  <p style="text-align:center; margin-top:2rem; font-family:'Fraunces',serif; font-style:italic; color:var(--ink-soft)">— Built with love for Nicolas —</p>
+</section>
+
+</main>
+
+<script>
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.panel');
+  tabs.forEach(t => {
+    t.addEventListener('click', () => {
+      tabs.forEach(x => x.classList.remove('active'));
+      panels.forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      const id = t.dataset.tab;
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+  });
+</script>
+
+<script>
+(function() {
+  var STORAGE_KEY = 'songs-golf-nicolas';
+  var GRADIENT = 'linear-gradient(135deg, #4a9c8f, #2d6e63)';
+
+  function getSongs() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+    catch(e) { return []; }
+  }
+  function saveSongs(songs) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(songs)); return true; }
+    catch(e) { alert('Could not save. Storage may be full or unavailable.'); return false; }
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function(c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function render() {
+    var container = document.getElementById('user-songs-list');
+    if (!container) return;
+    var songs = getSongs();
+    if (!songs.length) {
+      container.innerHTML = '<p class="user-songs-empty">No songs yet — tap "Add a Suno Song" to add your first one.</p>';
+      return;
+    }
+    var html = '<h3 style="margin-top:1.4rem; margin-bottom:0.6rem">Your Songs</h3>';
+    html += '<div class="card-grid">';
+    songs.forEach(function(s) {
+      html += '<div class="card song-card">';
+      html += '<div class="card-icon" style="background:' + GRADIENT + '; color:#fff">🎵</div>';
+      html += '<h3>' + esc(s.title) + '</h3>';
+      html += '<a class="play-button" href="' + esc(s.url) + '" target="_blank" rel="noopener"><span class="icon">▶</span> Play on Suno</a>';
+      html += '<button class="song-card-remove" data-id="' + esc(String(s.id)) + '" type="button">× Remove</button>';
+      html += '</div>';
+    });
+    html += '</div>';
+    container.innerHTML = html;
+    Array.prototype.forEach.call(container.querySelectorAll('.song-card-remove'), function(btn) {
+      btn.addEventListener('click', function() {
+        var id = btn.getAttribute('data-id');
+        var song = getSongs().filter(function(s) { return String(s.id) === id; })[0];
+        if (song && confirm('Remove "' + song.title + '"?')) {
+          saveSongs(getSongs().filter(function(s) { return String(s.id) !== id; }));
+          render();
+        }
+      });
+    });
+  }
+  function show() {
+    document.getElementById('song-title-input').value = '';
+    document.getElementById('song-url-input').value = '';
+    document.getElementById('song-modal').hidden = false;
+    setTimeout(function() {
+      var t = document.getElementById('song-title-input');
+      if (t) t.focus();
+    }, 50);
+  }
+  function hide() {
+    document.getElementById('song-modal').hidden = true;
+  }
+  function save() {
+    var title = document.getElementById('song-title-input').value.trim();
+    var url = document.getElementById('song-url-input').value.trim();
+    if (!title) { alert('Please enter a song title.'); return; }
+    if (!url) { alert('Please paste a Suno URL.'); return; }
+    if (!/^https?:\/\//i.test(url)) { alert('URL must start with http:// or https://'); return; }
+    var songs = getSongs();
+    songs.push({ id: Date.now(), title: title, url: url });
+    if (saveSongs(songs)) { hide(); render(); }
+  }
+  function init() {
+    var b = document.getElementById('add-song-btn'); if (b) b.addEventListener('click', show);
+    var c = document.getElementById('song-modal-cancel'); if (c) c.addEventListener('click', hide);
+    var s = document.getElementById('song-modal-save'); if (s) s.addEventListener('click', save);
+    var m = document.getElementById('song-modal');
+    if (m) m.addEventListener('click', function(e) { if (e.target === m) hide(); });
+    render();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
+})();
+</script>
+
+</body>
+</html>
